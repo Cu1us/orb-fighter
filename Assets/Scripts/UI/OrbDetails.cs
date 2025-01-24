@@ -10,40 +10,52 @@ public class OrbDetails : MonoBehaviour
     [SerializeField] RectTransform container;
     [SerializeField] Button closeButton;
 
-    [Header("Tween Settings")]
-    [SerializeField] float tweenDuration;
+    [SerializeField] float openCloseAnimationDuration;
+    [SerializeField] AnimationCurve openCloseCurve;
 
-    bool hidden;
+    bool toBeHidden;
+    bool closeButtonPressed;
+    float animationProgress;
 
     public void OnOrbSpawnerClicked(OrbSpawner spawner)
     {
-        Debug.Log("Click detected!");
-        if (hidden) TweenIn(); else TweenOut();
+        SetHidden(!toBeHidden);
     }
 
-    public void TweenIn()
+    public void OnCloseButtonClicked()
     {
-        closeButton.gameObject.SetActive(true);
-        SetHidden(false);
-        container.DOAnchorPosX(-container.sizeDelta.x, tweenDuration).OnComplete(OnTweenInFinished);
-    }
-    void OnTweenInFinished()
-    {
-
-    }
-    public void TweenOut()
-    {
-        closeButton.gameObject.SetActive(false);
-        container.DOAnchorPosX(0, tweenDuration).OnComplete(OnTweenOutFinished);
-    }
-    void OnTweenOutFinished()
-    {
+        closeButtonPressed = true;
         SetHidden(true);
+    }
+
+    void Update()
+    {
+        AnimateOpenClose();
+    }
+
+    void AnimateOpenClose()
+    {
+        float targetX = toBeHidden ? 0 : container.sizeDelta.x;
+
+        if (container.anchoredPosition.x != targetX)
+        {
+            float progressChange = Time.deltaTime / openCloseAnimationDuration;
+            if (toBeHidden) progressChange = -progressChange;
+            if (closeButtonPressed) progressChange *= 2;
+            animationProgress += progressChange;
+            animationProgress = Mathf.Clamp01(animationProgress);
+
+            float newX = -container.sizeDelta.x * openCloseCurve.Evaluate(animationProgress);
+            container.anchoredPosition = new Vector2(newX, container.anchoredPosition.y);
+        }
+
+        bool closeButtonVisible = container.anchoredPosition.x < 0 && !closeButtonPressed;
+        if (closeButton.gameObject.activeSelf != closeButtonVisible) closeButton.gameObject.SetActive(closeButtonVisible);
     }
 
     public void SetHidden(bool hidden)
     {
-        this.hidden = hidden;
-        container.gameObject.SetActive(!hidden);
+        toBeHidden = hidden;
+        if (!hidden) closeButtonPressed = false;
     }
 }
