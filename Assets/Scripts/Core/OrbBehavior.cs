@@ -9,7 +9,7 @@ public abstract class OrbBehavior : ScriptableObject
     [NonSerialized] public int level;
     [NonSerialized] public bool enabled = true;
 
-    [field: SerializeField] public OrbInfo Info { get; private set; }
+    [field: SerializeField] public BehaviorMetadata Metadata { get; private set; }
 
     public void Initialize(Orb parent)
     {
@@ -21,6 +21,6 @@ public abstract class OrbBehavior : ScriptableObject
 
     public virtual string GetDescription()
     {
-        return Info == null ? "No description" : Info.Description;
+        return Metadata == null ? "No description" : Metadata.Description;
     }
 }

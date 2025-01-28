@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Orb Info")]
-public class OrbInfo : ScriptableObject
+[CreateAssetMenu(menuName = "Orb Behavior Metadata")]
+public class BehaviorMetadata : ScriptableObject
 {
     [Header("Visuals")]
     public string Name;
