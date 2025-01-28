@@ -17,6 +17,11 @@ public class OrbDetails : MonoBehaviour
     bool closeButtonPressed;
     float animationProgress;
 
+    void Start()
+    {
+        toBeHidden = true;
+    }
+
     public void OnOrbSpawnerClicked(OrbSpawner spawner)
     {
         SetHidden(!toBeHidden);
