@@ -24,3 +24,12 @@ public abstract class OrbBehavior : ScriptableObject
         return Metadata == null ? "No description" : Metadata.Description;
     }
 }
+
+public struct BehaviorParameters
+{
+    public int level;
+    public BehaviorParameters(int level)
+    {
+        this.level = level;
+    }
+}

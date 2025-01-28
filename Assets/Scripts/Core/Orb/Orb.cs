@@ -46,6 +46,10 @@ public partial class Orb : MonoBehaviour
         {
             GameManager.Instance.UnregisterOrb(this);
         }
+        foreach (OrbBehavior behavior in ActiveBehaviors)
+        {
+            Destroy(behavior);
+        }
     }
 
     public void SetColor(Color color)
@@ -53,12 +57,13 @@ public partial class Orb : MonoBehaviour
         renderer.color = color;
     }
 
-    public void AddBehavior(OrbBehavior behaviorToClone, int level = 0)
+    public OrbBehavior AddBehavior(OrbBehavior behaviorToClone, BehaviorParameters parameters = new())
     {
         OrbBehavior behavior = Instantiate(behaviorToClone);
-        behavior.level = level;
+        behavior.level = parameters.level;
         ActiveBehaviors.Add(behavior);
         behavior.Initialize(this);
+        return behavior;
     }
 
     public bool IsEnemy(Orb toCheck) => OwnedByPlayer != toCheck.OwnedByPlayer;
