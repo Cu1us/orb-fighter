@@ -9,6 +9,9 @@ public class BehaviorMetadata : ScriptableObject
     public string Name;
     [TextArea] public string Description;
     public Sprite Icon;
+    [Header("VFX")]
+    public GameObject VisualEffectPrefab;
+    public bool ApplyVFXToSpawner;
 
     [Header("Settings")]
     public int MaxLevel;

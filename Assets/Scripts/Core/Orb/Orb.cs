@@ -6,12 +6,15 @@ using UnityEngine;
 // Core orb behavior. Other modules (partial class implementations) are split into other files in the same folder.
 public partial class Orb : MonoBehaviour
 {
+    [Header("References")]
+    public Transform VisualEffectsContainer;
     [HideInInspector] new public Rigidbody2D rigidbody;
     [HideInInspector] new public Collider2D collider;
     [HideInInspector] new public SpriteRenderer renderer;
 
     readonly List<OrbBehavior> ActiveBehaviors = new();
 
+    [Header("Settings")]
     public bool OwnedByPlayer;
 
     #region Events
@@ -62,6 +65,10 @@ public partial class Orb : MonoBehaviour
         OrbBehavior behavior = Instantiate(behaviorToClone);
         behavior.level = parameters.level;
         ActiveBehaviors.Add(behavior);
+        if (behavior.Metadata != null && behavior.Metadata.VisualEffectPrefab)
+        {
+            Instantiate(behavior.Metadata.VisualEffectPrefab, VisualEffectsContainer);
+        }
         behavior.Initialize(this);
         return behavior;
     }

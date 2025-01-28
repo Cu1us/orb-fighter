@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158fa7022fc5306e8342a21095d610e, type: 3}
   m_Name: Knockback
   m_EditorClassIdentifier: 
-  <Info>k__BackingField: {fileID: 11400000, guid: 9c37c6b4920374e898c35e44859df76e, type: 2}
+  <Metadata>k__BackingField: {fileID: 11400000, guid: 9c37c6b4920374e898c35e44859df76e, type: 2}
   knockbackForce: 10
