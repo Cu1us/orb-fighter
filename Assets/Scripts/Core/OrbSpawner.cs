@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(SpriteRenderer))]
 public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    [Header("References")]
+    [SerializeField] SpriteRenderer highlight;
     [SerializeField][HideInInspector] SpriteRenderer spriteRenderer;
     [SerializeField][HideInInspector] ArrowRenderer arrowRenderer;
 
@@ -30,6 +32,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     Vector2 dragScreenPosition;
     Vector2 dragStartingPos;
     int baseOrderInLayer;
+    float highlightUntilTime;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -144,6 +147,21 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     public void AddBehavior(OrbBehavior behavior)
     {
         Behaviors.Add(behavior);
+    }
+
+    public void Highlight(Color color, float duration = 0)
+    {
+        highlightUntilTime = Time.time + duration;
+        highlight.enabled = true;
+        highlight.color = color;
+    }
+
+    void Update()
+    {
+        if (highlightUntilTime < Time.time)
+        {
+            highlight.enabled = false;
+        }
     }
 
     void Awake()

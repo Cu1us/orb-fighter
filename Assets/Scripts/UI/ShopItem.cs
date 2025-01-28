@@ -8,6 +8,8 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 {
     [SerializeField] protected Image image;
     [SerializeField] protected Image ghost;
+    protected bool dragging;
+    protected Vector2 dragScreenPos;
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
@@ -15,16 +17,19 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         ghost.sprite = image.sprite;
         image.enabled = false;
         ghost.enabled = true;
+        dragging = true;
     }
 
     public virtual void OnDrag(PointerEventData eventData)
     {
         ghost.rectTransform.position += (Vector3)eventData.delta;
+        dragScreenPos = eventData.position;
     }
 
     public virtual void OnEndDrag(PointerEventData eventData)
     {
         ResetGhost();
+        dragging = false;
     }
 
     void ResetGhost()
