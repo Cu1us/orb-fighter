@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class OrbVFX : MonoBehaviour
 {
-    public bool SetEmitting()
+    public ParticleSystem[] particleSystems;
+
+    public void SetEmitting(bool emitting)
     {
-        throw new System.NotImplementedException();
+        foreach (ParticleSystem particleSystem in particleSystems)
+        {
+            var emissionModule = particleSystem.emission;
+            emissionModule.enabled = emitting;
+        }
+    }
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 }

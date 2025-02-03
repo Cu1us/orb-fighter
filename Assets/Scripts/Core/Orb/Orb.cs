@@ -60,7 +60,7 @@ public partial class Orb : MonoBehaviour
         renderer.color = color;
     }
 
-    public OrbBehavior AddBehavior(OrbBehavior behaviorToClone, BehaviorParameters parameters = new())
+    public OrbBehavior AddBehavior(OrbBehavior behaviorToClone, BehaviorOptions parameters = new())
     {
         OrbBehavior behavior = Instantiate(behaviorToClone);
         behavior.level = parameters.level;

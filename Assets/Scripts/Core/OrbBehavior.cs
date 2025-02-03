@@ -25,10 +25,10 @@ public abstract class OrbBehavior : ScriptableObject
     }
 }
 
-public struct BehaviorParameters
+public struct BehaviorOptions
 {
     public int level;
-    public BehaviorParameters(int level)
+    public BehaviorOptions(int level)
     {
         this.level = level;
     }
