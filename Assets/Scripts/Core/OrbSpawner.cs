@@ -34,6 +34,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     int baseOrderInLayer;
     float highlightUntilTime;
 
+    #region Pointer events
     public void OnBeginDrag(PointerEventData eventData)
     {
         float holdDurationBeforeDrag = Time.unscaledTime - eventData.clickTime;
@@ -117,6 +118,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         Debug.Log("Clicked!");
         GameManager.Instance.RegisterClickOnOrbSpawner(this);
     }
+    #endregion
 
     public Orb Spawn(bool disableSelf = true)
     {
@@ -144,6 +146,11 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         return orb;
     }
 
+    public void AddBehavior(OrbBehavior behavior)
+    {
+        BehaviorOptions parameters = new(0);
+        AddBehavior(behavior, parameters);
+    }
     public void AddBehavior(OrbBehavior behavior, BehaviorOptions parameters)
     {
         if (Behaviors.ContainsKey(behavior))
@@ -163,11 +170,6 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         {
             Behaviors.Add(behavior, parameters);
         }
-    }
-    public void AddBehavior(OrbBehavior behavior)
-    {
-        BehaviorOptions parameters = new(0);
-        AddBehavior(behavior, parameters);
     }
 
     public void Highlight(Color color, float duration = 0)
