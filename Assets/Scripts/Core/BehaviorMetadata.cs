@@ -10,7 +10,7 @@ public class BehaviorMetadata : ScriptableObject
     [TextArea] public string Description;
     public Sprite Icon;
     [Header("VFX")]
-    public GameObject VisualEffectPrefab;
+    public OrbVFX VisualEffectPrefab;
     public bool ApplyVFXToSpawner;
 
     [Header("Settings")]

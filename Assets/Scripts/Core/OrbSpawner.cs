@@ -17,7 +17,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     public float holdTimeToMoveObject;
     [Header("Orb data")]
     public Orb Prefab;
-    public Dictionary<OrbBehavior, BehaviorParameters> Behaviors = new();
+    public Dictionary<OrbBehavior, BehaviorOptions> Behaviors = new();
 
     public bool OwnedByPlayer = false;
     public Vector2 StartVelocityDir;
@@ -133,7 +133,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
             orb.SetColor(Color.red);
         }
 
-        foreach (KeyValuePair<OrbBehavior, BehaviorParameters> behavior in Behaviors)
+        foreach (KeyValuePair<OrbBehavior, BehaviorOptions> behavior in Behaviors)
         {
             orb.AddBehavior(behavior.Key, behavior.Value);
         }
@@ -144,11 +144,11 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         return orb;
     }
 
-    public void AddBehavior(OrbBehavior behavior, BehaviorParameters parameters)
+    public void AddBehavior(OrbBehavior behavior, BehaviorOptions parameters)
     {
         if (Behaviors.ContainsKey(behavior))
         {
-            BehaviorParameters newParameters = Behaviors[behavior];
+            BehaviorOptions newParameters = Behaviors[behavior];
             if (newParameters.level == parameters.level)
             {
                 newParameters.level++;
@@ -166,7 +166,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     }
     public void AddBehavior(OrbBehavior behavior)
     {
-        BehaviorParameters parameters = new(0);
+        BehaviorOptions parameters = new(0);
         AddBehavior(behavior, parameters);
     }
 
