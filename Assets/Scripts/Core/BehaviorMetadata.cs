@@ -6,13 +6,9 @@ using UnityEngine;
 public class BehaviorMetadata : ScriptableObject
 {
     [Header("Visuals")]
-    public string Name;
     [TextArea] public string Description;
     public Sprite Icon;
     [Header("VFX")]
     public OrbVFX VisualEffectPrefab;
     public bool ApplyVFXToSpawner;
-
-    [Header("Settings")]
-    public int MaxLevel;
 }

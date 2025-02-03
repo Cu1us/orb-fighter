@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Knockback
   m_EditorClassIdentifier: 
   <Metadata>k__BackingField: {fileID: 11400000, guid: 9c37c6b4920374e898c35e44859df76e, type: 2}
-  knockbackForce: 10
+  knockbackForce: 20

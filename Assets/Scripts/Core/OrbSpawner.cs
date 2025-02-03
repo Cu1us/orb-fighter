@@ -189,11 +189,19 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         highlight.color = color;
     }
 
-    public void ApplyUpgradeStats(Upgrade upgrade)
+    public void ApplyUpgrade(Upgrade upgrade)
     {
-        MaxHealth += upgrade.MaxHealthIncrease;
-        AttackDamage += upgrade.AttackDamageIncrease;
-        Mass += upgrade.MassIncrease;
+        if (upgrade.AddStats)
+        {
+            MaxHealth += upgrade.MaxHealthIncrease;
+            AttackDamage += upgrade.AttackDamageIncrease;
+            Mass += upgrade.MassIncrease;
+        }
+        if (upgrade.AddBehavior && upgrade.BehaviorToAdd)
+        {
+            BehaviorOptions parameters = new(upgrade.BehaviorLevel);
+            AddBehavior(upgrade.BehaviorToAdd, parameters);
+        }
     }
 
     void Update()

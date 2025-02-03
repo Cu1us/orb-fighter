@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7135747c07e57b8b9a459d6c6c832f92, type: 3}
+  m_Name: Knockback
+  m_EditorClassIdentifier: 
+  Icon: {fileID: 0}
+  Name: Spring
+  Description: KnockbackWooHooOOoO also +1 atk damage
+  AddBehavior: 1
+  BehaviorToAdd: {fileID: 11400000, guid: e896bb9150b055964b4073aeb98e57e2, type: 2}
+  BehaviorLevel: 0
+  UpgradeableBehavior: 1
+  MaxBehaviorLevel: 3
+  CancelIfBehaviorCannotBeAdded: 1
+  AddStats: 1
+  MaxHealthIncrease: 0
+  AttackDamageIncrease: 1
+  MassIncrease: 0
