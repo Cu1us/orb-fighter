@@ -189,6 +189,13 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         highlight.color = color;
     }
 
+    public void ApplyUpgradeStats(Upgrade upgrade)
+    {
+        MaxHealth += upgrade.MaxHealthIncrease;
+        AttackDamage += upgrade.AttackDamageIncrease;
+        Mass += upgrade.MassIncrease;
+    }
+
     void Update()
     {
         if (highlightUntilTime < Time.time)

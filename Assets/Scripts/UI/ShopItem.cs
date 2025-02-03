@@ -43,4 +43,16 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         ResetGhost();
     }
+
+    protected bool RaycastForSpawner(out OrbSpawner spawner)
+    {
+        Ray ray = GameManager.Instance.mainCamera.ScreenPointToRay(dragScreenPos);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+        if (hit.collider != null && hit.transform.TryGetComponent(out spawner))
+        {
+            return true;
+        }
+        spawner = null;
+        return false;
+    }
 }
