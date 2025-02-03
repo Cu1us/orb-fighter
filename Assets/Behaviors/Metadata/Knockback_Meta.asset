@@ -15,4 +15,6 @@ MonoBehaviour:
   Name: Knockback!!
   Description: This is a description that explains how knockback works.
   Icon: {fileID: 21300000, guid: b6a96c7c65795c94abf54a62adbf5c38, type: 3}
+  VisualEffectPrefab: {fileID: 2057909600940190806, guid: f215c499b26cc6029aad30eb33c0b2b7, type: 3}
+  ApplyVFXToSpawner: 1
   MaxLevel: 3

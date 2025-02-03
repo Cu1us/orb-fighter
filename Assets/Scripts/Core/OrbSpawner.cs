@@ -9,15 +9,20 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
 {
     [Header("References")]
     [SerializeField] SpriteRenderer highlight;
+    [SerializeField] Transform VisualEffectsContainer;
     [SerializeField][HideInInspector] SpriteRenderer spriteRenderer;
     [SerializeField][HideInInspector] ArrowRenderer arrowRenderer;
 
     [Header("Settings")]
     public float velocityArrowLength;
     public float holdTimeToMoveObject;
+
     [Header("Orb data")]
     public Orb Prefab;
+
     public Dictionary<OrbBehavior, BehaviorOptions> Behaviors = new();
+
+    readonly List<OrbVFX> ActiveVFX = new();
 
     public bool OwnedByPlayer = false;
     public Vector2 StartVelocityDir;
@@ -169,6 +174,11 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         else
         {
             Behaviors.Add(behavior, parameters);
+            if (behavior.Metadata && behavior.Metadata.ApplyVFXToSpawner && behavior.Metadata.VisualEffectPrefab)
+            {
+                OrbVFX vfx = Instantiate(behavior.Metadata.VisualEffectPrefab, VisualEffectsContainer);
+                ActiveVFX.Add(vfx);
+            }
         }
     }
 
@@ -191,7 +201,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     {
         arrowRenderer = GetComponentInChildren<ArrowRenderer>();
         if (arrowRenderer == null)
-            Debug.LogError($"Orb spawner \"{name}\": Could not find an arrow renderer among children");
+            Debug.LogError($"Orb spawner \"{name}\": Could not find an arrow renderer among children", this);
         UpdateVelocityArrow();
     }
 

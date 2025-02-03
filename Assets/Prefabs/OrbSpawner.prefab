@@ -34,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 2846191759654674462}
   - {fileID: 4946344086911913272}
+  - {fileID: 4858776434270600962}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &337261859402147349
@@ -101,12 +102,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 7746426196450777388}
+  VisualEffectsContainer: {fileID: 4858776434270600962}
   spriteRenderer: {fileID: 337261859402147349}
   arrowRenderer: {fileID: 0}
   velocityArrowLength: 2
   holdTimeToMoveObject: 0.25
   Prefab: {fileID: 3853820783085151679, guid: f833284a516b62bb18b72d68b1c9a565, type: 3}
-  Behaviors: []
   OwnedByPlayer: 1
   StartVelocityDir: {x: 0, y: 0}
   StartVelocityMagnitude: 20
@@ -148,6 +149,37 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!1 &5640067925497864036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4858776434270600962}
+  m_Layer: 7
+  m_Name: VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4858776434270600962
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5640067925497864036}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2215279152562599282}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5821127327709904399
 GameObject:
   m_ObjectHideFlags: 0

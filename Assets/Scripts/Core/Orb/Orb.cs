@@ -14,6 +14,8 @@ public partial class Orb : MonoBehaviour
 
     readonly List<OrbBehavior> ActiveBehaviors = new();
 
+    readonly List<OrbVFX> ActiveVFX = new();
+
     [Header("Settings")]
     public bool OwnedByPlayer;
 
@@ -70,6 +72,11 @@ public partial class Orb : MonoBehaviour
             Instantiate(behavior.Metadata.VisualEffectPrefab, VisualEffectsContainer);
         }
         behavior.Initialize(this);
+        if (behavior.Metadata && behavior.Metadata.VisualEffectPrefab)
+        {
+            OrbVFX vfx = Instantiate(behavior.Metadata.VisualEffectPrefab, VisualEffectsContainer);
+            ActiveVFX.Add(vfx);
+        }
         return behavior;
     }
 
