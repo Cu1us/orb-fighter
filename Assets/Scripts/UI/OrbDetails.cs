@@ -13,6 +13,8 @@ public class OrbDetails : MonoBehaviour
     [SerializeField] float openCloseAnimationDuration;
     [SerializeField] AnimationCurve openCloseCurve;
 
+    public OrbSpawner DisplayedSpawner;
+
     bool toBeHidden;
     bool closeButtonPressed;
     float animationProgress;
@@ -36,6 +38,10 @@ public class OrbDetails : MonoBehaviour
     void Update()
     {
         AnimateOpenClose();
+        if (DisplayedSpawner && !toBeHidden)
+        {
+            DisplayedSpawner.Highlight(Color.cyan);
+        }
     }
 
     void AnimateOpenClose()
@@ -62,5 +68,10 @@ public class OrbDetails : MonoBehaviour
     {
         toBeHidden = hidden;
         if (!hidden) closeButtonPressed = false;
+    }
+
+    public void ShowInfo(OrbSpawner spawner)
+    {
+
     }
 }

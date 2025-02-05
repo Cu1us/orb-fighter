@@ -20,7 +20,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     [Header("Orb data")]
     public Orb Prefab;
 
-    public Dictionary<OrbBehavior, BehaviorOptions> Behaviors = new();
+    public readonly List<Upgrade> Upgrades = new();
 
     readonly List<OrbVFX> ActiveVFX = new();
 
@@ -140,7 +140,25 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
             orb.SetColor(Color.red);
         }
 
-        foreach (KeyValuePair<OrbBehavior, BehaviorOptions> behavior in Behaviors)
+        Dictionary<OrbBehavior, int> behaviors = new();
+        foreach (Upgrade upgrade in Upgrades)
+        {
+            if (upgrade.AddBehavior && upgrade.BehaviorToAdd)
+            {
+                if (behaviors.ContainsKey(upgrade.BehaviorToAdd))
+                {
+                    if (upgrade.UpgradeableBehavior)
+                    {
+                        behaviors[upgrade.BehaviorToAdd] += upgrade.BehaviorLevel + 1;
+                    }
+                }
+                else
+                {
+                    behaviors.Add(upgrade.BehaviorToAdd, upgrade.BehaviorLevel);
+                }
+            }
+        }
+        foreach (KeyValuePair<OrbBehavior, int> behavior in behaviors)
         {
             orb.AddBehavior(behavior.Key, behavior.Value);
         }
@@ -151,35 +169,23 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         return orb;
     }
 
-    public void AddBehavior(OrbBehavior behavior)
+    public void AddUpgrade(Upgrade upgrade)
     {
-        BehaviorOptions parameters = new(0);
-        AddBehavior(behavior, parameters);
+        Upgrades.Add(upgrade);
+        BehaviorMetadata metadata = upgrade.BehaviorToAdd.Metadata;
+        if (metadata && metadata.ApplyVFXToSpawner && metadata.VisualEffectPrefab && !ActiveVFX.Contains(metadata.VisualEffectPrefab))
+        {
+            OrbVFX vfx = Instantiate(metadata.VisualEffectPrefab, VisualEffectsContainer);
+            ActiveVFX.Add(metadata.VisualEffectPrefab);
+        }
     }
-    public void AddBehavior(OrbBehavior behavior, BehaviorOptions parameters)
+    public bool CanAddUpgrade(Upgrade upgradeToAdd)
     {
-        if (Behaviors.ContainsKey(behavior))
-        {
-            BehaviorOptions newParameters = Behaviors[behavior];
-            if (newParameters.level == parameters.level)
-            {
-                newParameters.level++;
-            }
-            else if (parameters.level > newParameters.level)
-            {
-                newParameters.level = parameters.level;
-            }
-            Behaviors[behavior] = newParameters;
-        }
-        else
-        {
-            Behaviors.Add(behavior, parameters);
-            if (behavior.Metadata && behavior.Metadata.ApplyVFXToSpawner && behavior.Metadata.VisualEffectPrefab)
-            {
-                OrbVFX vfx = Instantiate(behavior.Metadata.VisualEffectPrefab, VisualEffectsContainer);
-                ActiveVFX.Add(vfx);
-            }
-        }
+        int existingUpgrades = 0;
+        foreach (Upgrade upgrade in Upgrades)
+            if (upgrade == upgradeToAdd)
+                existingUpgrades++;
+        return existingUpgrades < upgradeToAdd.MaxInstancesPerOrb;
     }
 
     public void Highlight(Color color, float duration = 0)
@@ -187,21 +193,6 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         highlightUntilTime = Time.time + duration;
         highlight.enabled = true;
         highlight.color = color;
-    }
-
-    public void ApplyUpgrade(Upgrade upgrade)
-    {
-        if (upgrade.AddStats)
-        {
-            MaxHealth += upgrade.MaxHealthIncrease;
-            AttackDamage += upgrade.AttackDamageIncrease;
-            Mass += upgrade.MassIncrease;
-        }
-        if (upgrade.AddBehavior && upgrade.BehaviorToAdd)
-        {
-            BehaviorOptions parameters = new(upgrade.BehaviorLevel);
-            AddBehavior(upgrade.BehaviorToAdd, parameters);
-        }
     }
 
     void Update()

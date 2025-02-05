@@ -62,10 +62,10 @@ public partial class Orb : MonoBehaviour
         renderer.color = color;
     }
 
-    public OrbBehavior AddBehavior(OrbBehavior behaviorToClone, BehaviorOptions parameters = new())
+    public OrbBehavior AddBehavior(OrbBehavior behaviorToClone, int level)
     {
         OrbBehavior behavior = Instantiate(behaviorToClone);
-        behavior.level = parameters.level;
+        behavior.level = level;
         ActiveBehaviors.Add(behavior);
         if (behavior.Metadata != null && behavior.Metadata.VisualEffectPrefab)
         {

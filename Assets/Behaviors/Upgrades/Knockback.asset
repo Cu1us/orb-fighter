@@ -15,12 +15,13 @@ MonoBehaviour:
   Icon: {fileID: 0}
   Name: Spring
   Description: KnockbackWooHooOOoO also +1 atk damage
+  Cost: 0
+  SlotsReq: 0
+  MaxInstancesPerOrb: 3
   AddBehavior: 1
   BehaviorToAdd: {fileID: 11400000, guid: e896bb9150b055964b4073aeb98e57e2, type: 2}
   BehaviorLevel: 0
   UpgradeableBehavior: 1
-  MaxBehaviorLevel: 3
-  CancelIfBehaviorCannotBeAdded: 1
   AddStats: 1
   MaxHealthIncrease: 0
   AttackDamageIncrease: 1

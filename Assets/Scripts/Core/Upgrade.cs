@@ -9,12 +9,14 @@ public class Upgrade : ScriptableObject
     public string Name;
     [TextArea] public string Description;
 
+    public int Cost;
+    public int SlotsReq;
+    public int MaxInstancesPerOrb;
+
     public bool AddBehavior;
     public OrbBehavior BehaviorToAdd;
     public int BehaviorLevel;
     public bool UpgradeableBehavior = true;
-    public int MaxBehaviorLevel;
-    public bool CancelIfBehaviorCannotBeAdded = true;
 
     public bool AddStats;
     public float MaxHealthIncrease;
@@ -23,18 +25,10 @@ public class Upgrade : ScriptableObject
 
     public void ApplyToSpawner(OrbSpawner spawner)
     {
-        spawner.ApplyUpgrade(this);
+        spawner.AddUpgrade(this);
     }
     public bool CanApplyTo(OrbSpawner spawner)
     {
-        if (AddBehavior && CancelIfBehaviorCannotBeAdded && spawner.Behaviors.ContainsKey(BehaviorToAdd))
-        {
-            int existingLevel = spawner.Behaviors[BehaviorToAdd].level;
-            if (BehaviorLevel < existingLevel || (BehaviorLevel == existingLevel && !UpgradeableBehavior))
-            {
-                return false;
-            }
-        }
-        return true;
+        return spawner.CanAddUpgrade(this);
     }
 }
