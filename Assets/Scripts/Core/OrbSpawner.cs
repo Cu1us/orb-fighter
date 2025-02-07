@@ -203,6 +203,23 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         }
     }
 
+    public Dictionary<Upgrade, int> GetUpgrades()
+    {
+        Dictionary<Upgrade, int> upgrades = new();
+        foreach (Upgrade upgrade in Upgrades)
+        {
+            if (upgrades.ContainsKey(upgrade))
+            {
+                upgrades[upgrade]++;
+            }
+            else
+            {
+                upgrades[upgrade] = 0;
+            }
+        }
+        return upgrades;
+    }
+
     void Awake()
     {
         arrowRenderer = GetComponentInChildren<ArrowRenderer>();

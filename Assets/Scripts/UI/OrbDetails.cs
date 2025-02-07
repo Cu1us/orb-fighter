@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
+using UnityEngine.Pool;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,23 +10,97 @@ public class OrbDetails : MonoBehaviour
     [SerializeField] RectTransform container;
     [SerializeField] Button closeButton;
 
+
     [SerializeField] float openCloseAnimationDuration;
     [SerializeField] AnimationCurve openCloseCurve;
+
+    [Header("Info blocks")]
+    [SerializeField] UpgradeInfoBlock infoBlockPrefab;
+    [SerializeField] Transform infoBlockContainer;
+
+    public List<UpgradeInfoBlock> spawnedInfoBlocks;
+    ObjectPool<UpgradeInfoBlock> Pool;
 
     public OrbSpawner DisplayedSpawner;
 
     bool toBeHidden;
+    bool isHidden;
     bool closeButtonPressed;
     float animationProgress;
 
+    #region InfoBlock pool
+    void SetupObjectPool()
+    {
+        Pool = new(
+            createFunc: InstantiateInfoBlock,
+            actionOnGet: (block) =>
+            {
+                spawnedInfoBlocks.Add(block);
+                block.gameObject.SetActive(true);
+            },
+            actionOnRelease: (block) =>
+            {
+                spawnedInfoBlocks.Remove(block);
+                block.ClearData();
+                block.gameObject.SetActive(false);
+            },
+            actionOnDestroy: (a) => Destroy(a.gameObject)
+        );
+    }
+
+    UpgradeInfoBlock InstantiateInfoBlock()
+    {
+        return Instantiate(infoBlockPrefab, infoBlockContainer);
+    }
+
+    UpgradeInfoBlock AddInfoBlockToUI(Upgrade upgradeToDisplay, int upgradeLevel = 0)
+    {
+        UpgradeInfoBlock block = Pool.Get();
+        block.SetData(upgradeToDisplay, upgradeLevel);
+        return block;
+    }
+
+    void ClearInfoBlocks()
+    {
+        foreach (UpgradeInfoBlock block in spawnedInfoBlocks.ToArray())
+        {
+            Pool.Release(block);
+        }
+        spawnedInfoBlocks.Clear();
+    }
+    #endregion
+
+    void Awake()
+    {
+        SetupObjectPool();
+    }
     void Start()
     {
         toBeHidden = true;
+        isHidden = true;
     }
 
     public void OnOrbSpawnerClicked(OrbSpawner spawner)
     {
-        SetHidden(!toBeHidden);
+        if (spawner == DisplayedSpawner)
+        {
+            SetHidden(!toBeHidden);
+        }
+        else if (toBeHidden)
+        {
+            SetHidden(false);
+        }
+        DisplayOrbData(spawner);
+    }
+
+    void DisplayOrbData(OrbSpawner spawner)
+    {
+        DisplayedSpawner = spawner;
+        ClearInfoBlocks();
+        foreach (KeyValuePair<Upgrade, int> upgrade in spawner.GetUpgrades())
+        {
+            AddInfoBlockToUI(upgrade.Key, upgrade.Value);
+        }
     }
 
     public void OnCloseButtonClicked()
@@ -60,18 +134,23 @@ public class OrbDetails : MonoBehaviour
             container.anchoredPosition = new Vector2(newX, container.anchoredPosition.y);
         }
 
-        bool closeButtonVisible = container.anchoredPosition.x < 0 && !closeButtonPressed;
-        if (closeButton.gameObject.activeSelf != closeButtonVisible) closeButton.gameObject.SetActive(closeButtonVisible);
+        bool menuHidden = container.anchoredPosition.x >= 0;
+        if (menuHidden && !isHidden) // Just became hidden
+        {
+            ClearInfoBlocks();
+        }
+        isHidden = menuHidden;
+
+        bool closeButtonVisible = !menuHidden && !closeButtonPressed;
+        if (closeButton.gameObject.activeSelf != closeButtonVisible)
+        {
+            closeButton.gameObject.SetActive(closeButtonVisible);
+        }
     }
 
     public void SetHidden(bool hidden)
     {
         toBeHidden = hidden;
         if (!hidden) closeButtonPressed = false;
-    }
-
-    public void ShowInfo(OrbSpawner spawner)
-    {
-
     }
 }
