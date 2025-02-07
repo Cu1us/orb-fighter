@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,27 +13,41 @@ public class InfoBox : MonoBehaviour, IPointerClickHandler, IDeselectHandler
     [SerializeField] TextMeshProUGUI Title;
     [SerializeField] TextMeshProUGUI Description;
     bool isVisible;
+    public static Guid currentBoxGuid { get; private set; }
 
     void Awake()
     {
         if (!Instance) Instance = this;
     }
 
-    public static void Show(string title, string description, Vector2 anchoredPosition, Vector2 pivot)
+    public static Guid Show(string title, string description, Vector2 anchoredPosition, Vector2 pivot)
     {
-        if (!Instance) return;
+        if (!Instance) return Guid.Empty;
+        currentBoxGuid = Guid.NewGuid();
         SetText(title, description);
         SetPosition(anchoredPosition, pivot);
         SetVisible(true);
         MarkSelected();
+        return currentBoxGuid;
     }
-    public static void Show(string title, string description, Vector2 anchoredPosition)
+    public static Guid Show(string title, string description, Vector2 anchoredPosition)
     {
-        if (!Instance) return;
+        if (!Instance) return Guid.Empty;
+        currentBoxGuid = Guid.NewGuid();
         SetText(title, description);
         SetPosition(anchoredPosition, Vector2.one);
         SetVisible(true);
         MarkSelected();
+        return currentBoxGuid;
+    }
+    public static bool RemoveIfGuidMatches(Guid guid)
+    {
+        if (currentBoxGuid == guid)
+        {
+            SetVisible(false);
+            return true;
+        }
+        return false;
     }
 
     public static void SetVisible(bool visible) { if (Instance) Instance.SetVisibleThis(visible); }

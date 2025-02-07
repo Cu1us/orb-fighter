@@ -8,7 +8,7 @@ public class ShopItem_Upgrade : ShopItem
 {
     public Upgrade upgrade;
 
-    void Update()
+    protected override void Update()
     {
         if (dragging)
         {
@@ -17,6 +17,7 @@ public class ShopItem_Upgrade : ShopItem
                 spawner.Highlight(CanApplyUpgradeTo(spawner) ? Color.green : Color.red);
             }
         }
+        base.Update();
     }
 
     public override void OnEndDrag(PointerEventData eventData)
@@ -48,5 +49,17 @@ public class ShopItem_Upgrade : ShopItem
         }
         spawner = null;
         return false;
+    }
+
+    protected override (string, string) GetInfoBoxData()
+    {
+        string description = upgrade.Description;
+        if (upgrade.AddStats)
+        {
+            description += "\n\nWhen applied on orb:";
+            if (upgrade.MaxHealthIncrease != 0) description += $"\n{(upgrade.MaxHealthIncrease >= 0 ? "+" + upgrade.MaxHealthIncrease : upgrade.MaxHealthIncrease)} Health";
+            if (upgrade.AttackDamageIncrease != 0) description += $"\n{(upgrade.AttackDamageIncrease >= 0 ? "+" + upgrade.AttackDamageIncrease : upgrade.AttackDamageIncrease)} Attack damage";
+        }
+        return (upgrade.Name, description);
     }
 }

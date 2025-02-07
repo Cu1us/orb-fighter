@@ -357,8 +357,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1fa36394ebe15658a46029056b947f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slot: {fileID: 41804431}
   image: {fileID: 648890398}
   ghost: {fileID: 1961973998}
+  TimeBeforeInfoBoxShowsUp: 0.3
   spawnerToPlace: {fileID: 2424120212060679390, guid: 5286d0aac6cd1b3a78d6ea1b1b92641b, type: 3}
   layersThatBlockPlacement:
     serializedVersion: 2
@@ -415,8 +417,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a237b0ad6ddfbc358a21ab994bf11e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slot: {fileID: 133772932}
   image: {fileID: 1177456838}
   ghost: {fileID: 35670902}
+  TimeBeforeInfoBoxShowsUp: 0.3
   upgrade: {fileID: 11400000, guid: 95fa8b91932b31579a76d5e772e75d01, type: 2}
 --- !u!114 &133772934
 MonoBehaviour:
@@ -3382,7 +3386,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1028140666}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.6441281
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

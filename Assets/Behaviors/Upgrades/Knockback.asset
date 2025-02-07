@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Icon: {fileID: 0}
   Name: Spring
-  Description: KnockbackWooHooOOoO also +1 atk damage
+  Description: Collisions with other orbs have increased knockback. Applies to both
+    orbs involved in the collision.
   Cost: 0
   SlotsReq: 0
   MaxInstancesPerOrb: 3
