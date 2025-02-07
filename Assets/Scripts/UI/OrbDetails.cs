@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Pool;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class OrbDetails : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class OrbDetails : MonoBehaviour
     ObjectPool<UpgradeInfoBlock> Pool;
 
     public OrbSpawner DisplayedSpawner;
+
+    public float viewportXMaxToCountClickAsOutsideMenu;
 
     bool toBeHidden;
     bool isHidden;
@@ -118,6 +121,15 @@ public class OrbDetails : MonoBehaviour
         {
             DisplayedSpawner.Highlight(Color.cyan);
         }
+        if (DetectClickOutsideMenu() && !toBeHidden)
+        {
+            SetHidden(true);
+        }
+    }
+
+    bool DetectClickOutsideMenu()
+    {
+        return Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject();
     }
 
     void AnimateOpenClose()
