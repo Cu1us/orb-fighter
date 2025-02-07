@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,8 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     public float Mass = 1f;
     public float MaxHealth;
     public float AttackDamage;
+
+    public Action onUpgradeAdded;
 
     // Local vars
     bool dragging = false;
@@ -178,6 +181,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
             OrbVFX vfx = Instantiate(metadata.VisualEffectPrefab, VisualEffectsContainer);
             ActiveVFX.Add(metadata.VisualEffectPrefab);
         }
+        onUpgradeAdded?.Invoke();
     }
     public bool CanAddUpgrade(Upgrade upgradeToAdd)
     {

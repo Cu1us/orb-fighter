@@ -100,12 +100,23 @@ public class OrbDetails : MonoBehaviour
 
     void DisplayOrbData(OrbSpawner spawner)
     {
+        if (spawner != DisplayedSpawner)
+        {
+            if (DisplayedSpawner) DisplayedSpawner.onUpgradeAdded -= OnSpawnerUpgradesChange;
+            spawner.onUpgradeAdded += OnSpawnerUpgradesChange;
+        }
         DisplayedSpawner = spawner;
+
         ClearInfoBlocks();
         foreach (KeyValuePair<Upgrade, int> upgrade in spawner.GetUpgrades())
         {
             AddInfoBlockToUI(upgrade.Key, upgrade.Value);
         }
+    }
+
+    void OnSpawnerUpgradesChange()
+    {
+        if (DisplayedSpawner) DisplayOrbData(DisplayedSpawner);
     }
 
     public void OnCloseButtonClicked()
@@ -152,6 +163,11 @@ public class OrbDetails : MonoBehaviour
         if (menuHidden && !isHidden) // Just became hidden
         {
             ClearInfoBlocks();
+            if (DisplayedSpawner)
+            {
+                DisplayedSpawner.onUpgradeAdded -= OnSpawnerUpgradesChange;
+                DisplayedSpawner = null;
+            }
         }
         isHidden = menuHidden;
 
