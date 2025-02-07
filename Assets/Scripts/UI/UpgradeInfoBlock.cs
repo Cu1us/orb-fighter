@@ -35,9 +35,15 @@ public class UpgradeInfoBlock : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         selected = true;
         Background.color = selectedColor;
+        ShowInfoBox();
+    }
+
+    void ShowInfoBox()
+    {
         Vector2 infoBoxPosition = Background.rectTransform.position + new Vector3(-Background.rectTransform.rect.width, Background.rectTransform.rect.height) / 2;
         InfoBox.Show(DisplayedUpgrade.Name, DisplayedUpgrade.Description, infoBoxPosition);
     }
+
     void Deselect()
     {
         if (!selected) return;
@@ -61,4 +67,5 @@ public class UpgradeInfoBlock : MonoBehaviour, IPointerEnterHandler, IPointerExi
         DisplayedUpgrade = null;
         Background.color = baseColor;
     }
+
 }

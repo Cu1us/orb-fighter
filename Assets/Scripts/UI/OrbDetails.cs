@@ -50,7 +50,9 @@ public class OrbDetails : MonoBehaviour
 
     UpgradeInfoBlock InstantiateInfoBlock()
     {
-        return Instantiate(infoBlockPrefab, infoBlockContainer);
+        UpgradeInfoBlock instance = Instantiate(infoBlockPrefab, infoBlockContainer);
+        instance.ClearData();
+        return instance;
     }
 
     UpgradeInfoBlock AddInfoBlockToUI(Upgrade upgradeToDisplay, int upgradeLevel = 0)
