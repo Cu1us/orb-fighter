@@ -2,14 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSerializer : MonoBehaviour
+public static class GameSerializer
 {
-    public string SerializePlayerTeam()
+    public static string SerializePlayerTeam(int round = -1)
     {
-
-        return "";
+        SerializableTeam team = CapsulizePlayerTeam(round);
+        return JsonUtility.ToJson(team);
     }
-    public SerializableOrbData SerializeOrb(OrbSpawner spawner)
+    public static SerializableTeam CapsulizePlayerTeam(int round = -1)
+    {
+        if (round == -1) round = GameManager.Round;
+        List<SerializableOrbData> orbs = new(5);
+        foreach (OrbSpawner spawner in GameManager.Instance.SpawnerContainer.Spawners)
+        {
+            if (spawner.OwnedByPlayer)
+            {
+                orbs.Add(CapsulizeOrbSpawner(spawner));
+            }
+        }
+        SerializableTeam team = new(orbs.ToArray(), 0);
+        return team;
+    }
+    public static SerializableOrbData CapsulizeOrbSpawner(OrbSpawner spawner)
     {
         Vector2 position = spawner.transform.position;
         Vector2 startVelocity = spawner.StartVelocityDir * spawner.StartVelocityMagnitude;
@@ -27,7 +41,7 @@ public class GameSerializer : MonoBehaviour
             }
         }
 
-        return new SerializableOrbData(position, startVelocity, upgrades.ToArray());
+        return new(position, startVelocity, upgrades.ToArray());
     }
 }
 
@@ -48,6 +62,12 @@ public struct SerializableOrbData
 [System.Serializable]
 public struct SerializableTeam
 {
+    [SerializeField] public SerializableOrbData[] orbs;
     [SerializeField] public int round;
-    [SerializeField] public SerializableOrbData orbs;
+
+    public SerializableTeam(SerializableOrbData[] orbs, int round)
+    {
+        this.orbs = orbs;
+        this.round = round;
+    }
 }

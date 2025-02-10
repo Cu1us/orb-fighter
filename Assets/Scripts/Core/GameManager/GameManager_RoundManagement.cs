@@ -9,6 +9,7 @@ using TMPro;
 public partial class GameManager
 {
     public static State GameState { get; private set; } = State.SHOP;
+    public static int Round = 0;
 
     public Action onTakeoffAllOrbs;
 
@@ -66,6 +67,7 @@ public partial class GameManager
     [ContextMenu("Start Round")]
     public void StartRound()
     {
+        Round++;
         gameActive = true;
         GameState = State.COMBAT;
         OnRoundStart?.Invoke();
@@ -133,7 +135,7 @@ public partial class GameManager
         ShopContainer.SetActive(active);
     }
 
-    public IEnumerator GetAllOrbs()
+    public IEnumerable GetAllOrbs()
     {
         foreach (Orb orb in ActivePlayerOrbs)
         {
