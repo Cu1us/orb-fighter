@@ -19,7 +19,7 @@ public class UpgradeInfoBlock : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] Color selectedColor;
 
     bool selected;
-
+    Guid infoBoxGuid;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -41,7 +41,7 @@ public class UpgradeInfoBlock : MonoBehaviour, IPointerEnterHandler, IPointerExi
     void ShowInfoBox()
     {
         Vector2 infoBoxPosition = Background.rectTransform.position + new Vector3(-Background.rectTransform.rect.width, Background.rectTransform.rect.height) / 2;
-        InfoBox.Show(DisplayedUpgrade.Name, DisplayedUpgrade.Description, infoBoxPosition);
+        infoBoxGuid = InfoBox.Instance.ShowUpgrade(DisplayedUpgrade, infoBoxPosition);
     }
 
     void Deselect()
@@ -49,7 +49,7 @@ public class UpgradeInfoBlock : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (!selected) return;
         selected = false;
         Background.color = baseColor;
-        InfoBox.SetVisible(false);
+        InfoBox.Instance.RemoveIfGuidMatches(infoBoxGuid);
     }
 
     public void SetData(Upgrade upgradeToDisplay, int upgradeLevel = 0)

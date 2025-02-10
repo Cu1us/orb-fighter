@@ -7,40 +7,78 @@ using UnityEngine.EventSystems;
 
 public class InfoBox : MonoBehaviour, IPointerClickHandler, IDeselectHandler
 {
-    protected static InfoBox Instance;
+    private static InfoBox _instance;
+    public static InfoBox Instance
+    {
+        get
+        {
+            if (_instance) return _instance;
+            else throw new NullReferenceException("A script attempted to access the static InfoBox instance, but it has not yet been initialized.");
+        }
+    }
 
-    [SerializeField] RectTransform Container;
+
+    [SerializeField] RectTransform MainContainer;
     [SerializeField] TextMeshProUGUI Title;
     [SerializeField] TextMeshProUGUI Description;
+
+    [SerializeField] GameObject StatsContainer;
+    [SerializeField] TextMeshProUGUI StatsHeader;
+    [SerializeField] GameObject HealthBonusContainer;
+    [SerializeField] GameObject AttackBonusContainer;
+    [SerializeField] TextMeshProUGUI HealthBonus;
+    [SerializeField] TextMeshProUGUI AttackBonus;
+
     bool isVisible;
-    public static Guid currentBoxGuid { get; private set; }
+    public Guid currentBoxGuid { get; private set; }
+
 
     void Awake()
     {
-        if (!Instance) Instance = this;
+        if (!_instance) _instance = this;
     }
 
-    public static Guid Show(string title, string description, Vector2 anchoredPosition, Vector2 pivot)
+    public Guid ShowUpgrade(Upgrade upgrade, Vector2 anchoredPosition, bool showStats = true)
     {
-        if (!Instance) return Guid.Empty;
+        if (showStats && upgrade.AddStats)
+        {
+            AttackBonusContainer.SetActive(upgrade.AttackDamageIncrease != 0);
+            HealthBonusContainer.SetActive(upgrade.MaxHealthIncrease != 0);
+            AttackBonus.text = upgrade.AttackDamageIncrease < 0 ? upgrade.AttackDamageIncrease.ToString() : $"+{upgrade.AttackDamageIncrease}";
+            HealthBonus.text = upgrade.MaxHealthIncrease < 0 ? upgrade.MaxHealthIncrease.ToString() : $"+{upgrade.MaxHealthIncrease}";
+
+            StatsContainer.SetActive(true);
+        }
+        else
+        {
+            StatsContainer.SetActive(false);
+        }
+
+        Title.text = upgrade.Name;
+        Description.text = upgrade.Description;
+        StatsHeader.text = "When applied onto orb:";
+
+        Guid guid = Show(anchoredPosition);
+        return guid;
+    }
+
+    public Guid Show(Vector2 anchoredPosition, Vector2 pivot)
+    {
         currentBoxGuid = Guid.NewGuid();
-        SetText(title, description);
         SetPosition(anchoredPosition, pivot);
         SetVisible(true);
         MarkSelected();
         return currentBoxGuid;
     }
-    public static Guid Show(string title, string description, Vector2 anchoredPosition)
+    public Guid Show(Vector2 anchoredPosition)
     {
-        if (!Instance) return Guid.Empty;
         currentBoxGuid = Guid.NewGuid();
-        SetText(title, description);
         SetPosition(anchoredPosition, Vector2.one);
         SetVisible(true);
         MarkSelected();
         return currentBoxGuid;
     }
-    public static bool RemoveIfGuidMatches(Guid guid)
+    public bool RemoveIfGuidMatches(Guid guid)
     {
         if (currentBoxGuid == guid)
         {
@@ -50,29 +88,19 @@ public class InfoBox : MonoBehaviour, IPointerClickHandler, IDeselectHandler
         return false;
     }
 
-    public static void SetVisible(bool visible) { if (Instance) Instance.SetVisibleThis(visible); }
-    private void SetVisibleThis(bool visible)
+    public void SetVisible(bool visible)
     {
-        Container.gameObject.SetActive(visible);
+        MainContainer.gameObject.SetActive(visible);
         isVisible = visible;
     }
 
-    public static void SetPosition(Vector2 anchoredPosition, Vector2 pivot) { if (Instance) Instance.SetPositionThis(anchoredPosition, pivot); }
-    void SetPositionThis(Vector2 anchoredPosition, Vector2 pivot)
+    public void SetPosition(Vector2 anchoredPosition, Vector2 pivot)
     {
-        Container.pivot = pivot;
-        Container.anchoredPosition = anchoredPosition;
+        MainContainer.pivot = pivot;
+        MainContainer.anchoredPosition = anchoredPosition;
     }
 
-    public static void SetText(string title, string description) { if (Instance) Instance.SetTextThis(title, description); }
-    private void SetTextThis(string title, string description)
-    {
-        Title.text = title;
-        Description.text = description;
-    }
-
-    public static void MarkSelected() { if (Instance) Instance.MarkSelectedThis(); }
-    private void MarkSelectedThis()
+    public void MarkSelected()
     {
         EventSystem.current.SetSelectedGameObject(gameObject);
     }
@@ -80,10 +108,10 @@ public class InfoBox : MonoBehaviour, IPointerClickHandler, IDeselectHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SetVisibleThis(false);
+        SetVisible(false);
     }
     public void OnDeselect(BaseEventData eventData)
     {
-        SetVisibleThis(false);
+        SetVisible(false);
     }
 }

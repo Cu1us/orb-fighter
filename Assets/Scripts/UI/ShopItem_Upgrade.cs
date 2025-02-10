@@ -51,15 +51,8 @@ public class ShopItem_Upgrade : ShopItem
         return false;
     }
 
-    protected override (string, string) GetInfoBoxData()
+    protected override void ShowInfoBox()
     {
-        string description = upgrade.Description;
-        if (upgrade.AddStats)
-        {
-            description += "\n\nWhen applied on orb:";
-            if (upgrade.MaxHealthIncrease != 0) description += $"\n{(upgrade.MaxHealthIncrease >= 0 ? "+" + upgrade.MaxHealthIncrease : upgrade.MaxHealthIncrease)} Health";
-            if (upgrade.AttackDamageIncrease != 0) description += $"\n{(upgrade.AttackDamageIncrease >= 0 ? "+" + upgrade.AttackDamageIncrease : upgrade.AttackDamageIncrease)} Attack damage";
-        }
-        return (upgrade.Name, description);
+        infoBoxGuid = InfoBox.Instance.ShowUpgrade(upgrade, GetInfoBoxPosition());
     }
 }

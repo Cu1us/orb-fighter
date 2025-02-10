@@ -18,7 +18,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     bool pointerOver = false;
     float pointerOverStartTime;
 
-    Guid infoBoxGuid;
+    protected Guid infoBoxGuid;
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
@@ -64,16 +64,14 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         }
     }
 
-    protected virtual void ShowInfoBox()
+    protected Vector2 GetInfoBoxPosition()
     {
-        (string title, string description) = GetInfoBoxData();
-        Vector2 infoBoxPosition = slot.position + new Vector3(-slot.rect.width, slot.rect.height) / 2;
-        infoBoxGuid = InfoBox.Show(title, description, infoBoxPosition);
+        return slot.position + new Vector3(-slot.rect.width, slot.rect.height) / 2;
     }
 
-    protected virtual (string, string) GetInfoBoxData()
+    protected virtual void ShowInfoBox()
     {
-        return ("Undefined name", "Undefined description");
+        // Override in subclasses
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -85,7 +83,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnPointerExit(PointerEventData eventData)
     {
         pointerOver = false;
-        InfoBox.RemoveIfGuidMatches(infoBoxGuid);
+        InfoBox.Instance.RemoveIfGuidMatches(infoBoxGuid);
         infoBoxGuid = Guid.Empty;
     }
 }
