@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "912082894708",
+    "firebase_url": "https://orb-fighter-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "orb-fighter",
+    "storage_bucket": "orb-fighter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912082894708:android:665743173886dfc9a57621",
+        "android_client_info": {
+          "package_name": "com.cu1us.orbfighter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuBup0nStGilLUw9EoDi9f8iJfZhYRHls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

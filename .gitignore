@@ -71,3 +71,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_5_0.bundle
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_5_0.so
