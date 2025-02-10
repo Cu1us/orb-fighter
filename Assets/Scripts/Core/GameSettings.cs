@@ -6,4 +6,5 @@ using UnityEngine;
 public class GameSettings : ScriptableObject
 {
     public LayerMask layersThatBlockOrbPlacement;
+    public AssetMap UpgradeIDMap;
 }

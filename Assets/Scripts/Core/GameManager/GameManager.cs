@@ -60,6 +60,15 @@ public partial class GameManager : MonoBehaviour
         return true;
     }
 
+    public static Upgrade GetUpgradeFromID(string id)
+    {
+        return Instance.gameSettings.UpgradeIDMap.Get(id);
+    }
+    public static bool TryGetUpgradeFromID(string id, out Upgrade upgrade)
+    {
+        return Instance.gameSettings.UpgradeIDMap.TryGet(id, out upgrade);
+    }
+
     public void RegisterClickOnOrbSpawner(OrbSpawner source)
     {
         OnOrbClicked?.Invoke(source);
