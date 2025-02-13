@@ -19,7 +19,7 @@ public static class GameSerializer
                 orbs.Add(GetSerializableOrbSpawner(spawner));
             }
         }
-        SerializableTeam team = new(orbs.ToArray(), 0);
+        SerializableTeam team = new(orbs.ToArray());
         return team;
     }
     public static SerializableOrbData GetSerializableOrbSpawner(OrbSpawner spawner)
