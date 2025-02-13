@@ -11,8 +11,8 @@ public class AssetMap : ScriptableObject
     [field: NonSerialized] public bool Loaded { get; private set; } = false;
 
     // There is apparently no better way to make a bi-directional dictionary than using two dictionaries
-    [NonSerialized] public Dictionary<string, Upgrade> IDToUpgradeMap;
-    [NonSerialized] public Dictionary<Upgrade, string> UpgradeToIDMap;
+    [NonSerialized] public Dictionary<string, Upgrade> IDToUpgradeMap = new();
+    [NonSerialized] public Dictionary<Upgrade, string> UpgradeToIDMap = new();
 
 
     [RuntimeInitializeOnLoadMethod]

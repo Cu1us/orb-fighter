@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Asset Map
   m_EditorClassIdentifier: 
   Preload: 0
-  Maps: []
+  Maps:
+  - Key: knockback
+    Value: {fileID: 11400000, guid: 95fa8b91932b31579a76d5e772e75d01, type: 2}

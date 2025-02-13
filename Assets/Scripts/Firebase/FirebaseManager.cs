@@ -12,7 +12,6 @@ public class FirebaseManager : MonoBehaviour
 
     void Start()
     {
-        //Setup for talking to firebase
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Exception != null)
@@ -21,6 +20,15 @@ public class FirebaseManager : MonoBehaviour
             db = FirebaseDatabase.DefaultInstance;
 
             db.RootReference.Child("Hello").SetValueAsync("World");
+            Debug.Log("Data set!");
         });
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Debug.Log(GameSerializer.SerializePlayerTeam());
+        }
     }
 }

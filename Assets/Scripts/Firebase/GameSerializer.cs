@@ -4,14 +4,13 @@ using UnityEngine;
 
 public static class GameSerializer
 {
-    public static string SerializePlayerTeam(int round = -1)
+    public static string SerializePlayerTeam()
     {
-        SerializableTeam team = GetSerializablePlayerTeam(round);
+        SerializableTeam team = GetSerializablePlayerTeam();
         return JsonUtility.ToJson(team);
     }
-    public static SerializableTeam GetSerializablePlayerTeam(int round = -1)
+    public static SerializableTeam GetSerializablePlayerTeam()
     {
-        if (round == -1) round = GameManager.Round;
         List<SerializableOrbData> orbs = new(5);
         foreach (OrbSpawner spawner in GameManager.Instance.SpawnerContainer.Spawners)
         {
@@ -63,11 +62,9 @@ public struct SerializableOrbData
 public struct SerializableTeam
 {
     [SerializeField] public SerializableOrbData[] orbs;
-    [SerializeField] public int round;
 
-    public SerializableTeam(SerializableOrbData[] orbs, int round)
+    public SerializableTeam(SerializableOrbData[] orbs)
     {
         this.orbs = orbs;
-        this.round = round;
     }
 }
