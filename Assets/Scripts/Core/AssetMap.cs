@@ -10,7 +10,7 @@ public class AssetMap : ScriptableObject
     [SerializeField] UpgradeMap[] Maps;
     [field: NonSerialized] public bool Loaded { get; private set; } = false;
 
-    // There is apparently no better way to make a bi-directional dictionary than simply using two dictionaries
+    // There is apparently no better way to make a bi-directional dictionary than using two dictionaries
     [NonSerialized] public Dictionary<string, Upgrade> IDToUpgradeMap;
     [NonSerialized] public Dictionary<Upgrade, string> UpgradeToIDMap;
 
@@ -24,6 +24,7 @@ public class AssetMap : ScriptableObject
             SetupMap();
         }
     }
+
     void SetupMap()
     {
         Debug.Log($"Setting up Asset Map '{name}'");
@@ -58,15 +59,7 @@ public class AssetMap : ScriptableObject
         if (!Loaded) SetupMap();
         return UpgradeToIDMap.TryGetValue(upgrade, out id);
     }
-
 }
 
-[System.Serializable]
-public record UpgradeMap(string Key, Upgrade Value);
-
-// https://developercommunity.visualstudio.com/t/error-cs0518-predefined-type-systemruntimecompiler/1244809
-// Issue with compiling down to .NET 4. from a higher version (?); this class needs to be manually defined. Apparently a bug with Visual Studio.
-namespace System.Runtime.CompilerServices
-{
-    internal static class IsExternalInit { }
-}
+[Serializable]
+public record UpgradeMap { [SerializeField] public string Key; [SerializeField] public Upgrade Value; }

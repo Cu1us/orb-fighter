@@ -6,10 +6,10 @@ public static class GameSerializer
 {
     public static string SerializePlayerTeam(int round = -1)
     {
-        SerializableTeam team = CapsulizePlayerTeam(round);
+        SerializableTeam team = GetSerializablePlayerTeam(round);
         return JsonUtility.ToJson(team);
     }
-    public static SerializableTeam CapsulizePlayerTeam(int round = -1)
+    public static SerializableTeam GetSerializablePlayerTeam(int round = -1)
     {
         if (round == -1) round = GameManager.Round;
         List<SerializableOrbData> orbs = new(5);
@@ -17,13 +17,13 @@ public static class GameSerializer
         {
             if (spawner.OwnedByPlayer)
             {
-                orbs.Add(CapsulizeOrbSpawner(spawner));
+                orbs.Add(GetSerializableOrbSpawner(spawner));
             }
         }
         SerializableTeam team = new(orbs.ToArray(), 0);
         return team;
     }
-    public static SerializableOrbData CapsulizeOrbSpawner(OrbSpawner spawner)
+    public static SerializableOrbData GetSerializableOrbSpawner(OrbSpawner spawner)
     {
         Vector2 position = spawner.transform.position;
         Vector2 startVelocity = spawner.StartVelocityDir * spawner.StartVelocityMagnitude;
