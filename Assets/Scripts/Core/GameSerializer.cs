@@ -4,11 +4,11 @@ using UnityEngine;
 
 public static class GameSerializer
 {
-    public static string SerializePlayerTeam()
+    public static string SerializePlayerTeam(SerializableTeam team)
     {
-        SerializableTeam team = GetSerializablePlayerTeam();
         return JsonUtility.ToJson(team);
     }
+
     public static SerializableTeam GetSerializablePlayerTeam()
     {
         List<SerializableOrbData> orbs = new(5);
@@ -22,6 +22,7 @@ public static class GameSerializer
         SerializableTeam team = new(orbs.ToArray());
         return team;
     }
+
     public static SerializableOrbData GetSerializableOrbSpawner(OrbSpawner spawner)
     {
         Vector2 position = spawner.transform.position;
@@ -67,4 +68,9 @@ public struct SerializableTeam
     {
         this.orbs = orbs;
     }
+}
+[System.Serializable]
+public struct UserData
+{
+    public string name;
 }

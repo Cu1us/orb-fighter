@@ -104,6 +104,9 @@ public partial class GameManager
             RoundResult.LOSS => "YOU LOSE !!! >:(",
             _ => "DRAW??!?!?!"
         };
+
+        FirebaseManager.SaveTeam(GameSerializer.GetSerializablePlayerTeam(), Round);
+
         RoundEndText.gameObject.SetActive(true);
     }
 
@@ -145,6 +148,11 @@ public partial class GameManager
         {
             yield return orb;
         }
+    }
+
+    public void SetupEnemyTeam()
+    {
+
     }
 
     public enum State
