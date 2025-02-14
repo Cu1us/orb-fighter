@@ -8,6 +8,7 @@ using Firebase.Auth;
 using System;
 using System.Data.Common;
 using UnityEngine.UIElements;
+using System.Threading.Tasks;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -79,7 +80,7 @@ public class FirebaseManager : MonoBehaviour
             }
         });
     }
-    public static void LoadData(string path, string data, Action<DataSnapshot> callback = null)
+    public static void LoadData(string path, Action<DataSnapshot> callback = null)
     {
         if (!IsDatabaseAvailable())
         {
@@ -98,7 +99,7 @@ public class FirebaseManager : MonoBehaviour
         });
     }
 
-    public static void LoadRandomEnemyTeam(Action<SerializableTeam?> callback = null)
+    public async void LoadRandomEnemyTeam(int round, Action<SerializableTeam?> callback = null)
     {
         if (!IsDatabaseAvailable())
         {
@@ -106,7 +107,16 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogWarning($"{nameof(FirebaseManager)}: Couldn't load enemy team because the database is unavailable or uninitialized.");
             return;
         }
-
+        Task<DataSnapshot> task = db.RootReference.Child($"teams/random/{round}/keys").GetValueAsync();
+        DataSnapshot data = await task;
+        if (!task.IsCompletedSuccessfully)
+        {
+            Debug.LogWarning($"Failed to load team keys for round {round}: {task.Exception}");
+            return;
+        }
+        string json = data.GetRawJsonValue();
+        Debug.Log("JSON: " + json);
+        // TODO: Get list of keys from this JSON string and pick a random one to fetch team data at
     }
 
     public static void SaveTeam(SerializableTeam teamData, int round)
