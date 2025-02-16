@@ -92,7 +92,7 @@ public class ShopItem_Orb : ShopItem
 
     void PlaceSpawnerAt(Vector3 spawnPoint)
     {
-        OrbSpawner spawner = Instantiate(spawnerToPlace, spawnPoint, Quaternion.identity, GameManager.Instance.SpawnerContainer.transform);
-        GameManager.Instance.SpawnerContainer.AddSpawner(spawner);
+        OrbSpawner spawner = Instantiate(spawnerToPlace, spawnPoint, Quaternion.identity, GameManager.Instance.PlayerSpawnerContainer.transform);
+        GameManager.Instance.PlayerSpawnerContainer.AddSpawner(spawner);
     }
 }

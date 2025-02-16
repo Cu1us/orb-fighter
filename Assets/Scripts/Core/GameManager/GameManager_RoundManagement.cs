@@ -64,17 +64,74 @@ public partial class GameManager
         }
     }
 
-    [ContextMenu("Start Round")]
+    void ClearAllActiveOrbs()
+    {
+        foreach (Transform child in SpawnedOrbsContainer)
+        {
+            Destroy(child.gameObject);
+        }
+        ActivePlayerOrbs.Clear();
+        ActiveEnemyOrbs.Clear();
+    }
+
+    void SetShopActive(bool active)
+    {
+        ShopContainer.SetActive(active);
+    }
+
+    public IEnumerable GetAllOrbs()
+    {
+        foreach (Orb orb in ActivePlayerOrbs)
+        {
+            yield return orb;
+        }
+        foreach (Orb orb in ActiveEnemyOrbs)
+        {
+            yield return orb;
+        }
+    }
+
+
+    [ContextMenu("Start Next Round")]
+    public void LoadAndStartNextRound()
+    {
+        GameState = State.FIND_OPPONENT;
+        Round++;
+        GetEnemyTeam(team =>
+        {
+            EnemySpawnerContainer.SetupTeam(team);
+            StartRound();
+        });
+    }
+    void GetEnemyTeam(Action<SerializableTeam> callback = null)
+    {
+        FirebaseManager.TryLoadRandomEnemyTeam(Round, team =>
+        {
+            if (team == null)
+            {
+                Debug.Log("Team to set up was null. Offline teams not implemented yet.");
+                // TODO: Get offline team
+            }
+            else
+            {
+                callback?.Invoke(team.Value);
+            }
+        });
+    }
+
     public void StartRound()
     {
-        Round++;
         gameActive = true;
         GameState = State.COMBAT;
         OnRoundStart?.Invoke();
 
         SetShopActive(false);
-        SpawnerContainer.SpawnAll();
-        SpawnerContainer.Hide();
+
+        PlayerSpawnerContainer.SpawnAll();
+        PlayerSpawnerContainer.Hide();
+
+        EnemySpawnerContainer.SpawnAll();
+        EnemySpawnerContainer.Hide();
 
         Invoke(nameof(TakeoffAllOrbs), 1f);
     }
@@ -88,7 +145,7 @@ public partial class GameManager
     {
         if (GameState == State.SHOP)
         {
-            StartRound();
+            LoadAndStartNextRound();
         }
     }
 
@@ -120,40 +177,10 @@ public partial class GameManager
         ClearAllActiveOrbs();
         GameState = State.SHOP;
         SetShopActive(true);
-        SpawnerContainer.Show();
+        PlayerSpawnerContainer.Show();
+        EnemySpawnerContainer.Clear();
     }
 
-    void ClearAllActiveOrbs()
-    {
-        foreach (Transform child in SpawnedOrbsContainer)
-        {
-            Destroy(child.gameObject);
-        }
-        ActivePlayerOrbs.Clear();
-        ActiveEnemyOrbs.Clear();
-    }
-
-    void SetShopActive(bool active)
-    {
-        ShopContainer.SetActive(active);
-    }
-
-    public IEnumerable GetAllOrbs()
-    {
-        foreach (Orb orb in ActivePlayerOrbs)
-        {
-            yield return orb;
-        }
-        foreach (Orb orb in ActiveEnemyOrbs)
-        {
-            yield return orb;
-        }
-    }
-
-    public void SetupEnemyTeam()
-    {
-
-    }
 
     public enum State
     {

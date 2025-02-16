@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public static class GameSerializer
@@ -11,8 +12,8 @@ public static class GameSerializer
 
     public static SerializableTeam GetSerializablePlayerTeam()
     {
-        List<SerializableOrbData> orbs = new(5);
-        foreach (OrbSpawner spawner in GameManager.Instance.SpawnerContainer.Spawners)
+        List<SerializableOrbSpawner> orbs = new(5);
+        foreach (OrbSpawner spawner in GameManager.Instance.PlayerSpawnerContainer.Spawners)
         {
             if (spawner.OwnedByPlayer)
             {
@@ -23,7 +24,7 @@ public static class GameSerializer
         return team;
     }
 
-    public static SerializableOrbData GetSerializableOrbSpawner(OrbSpawner spawner)
+    public static SerializableOrbSpawner GetSerializableOrbSpawner(OrbSpawner spawner)
     {
         Vector2 position = spawner.transform.position;
         Vector2 startVelocity = spawner.StartVelocityDir * spawner.StartVelocityMagnitude;
@@ -41,18 +42,42 @@ public static class GameSerializer
             }
         }
 
-        return new(position, startVelocity, upgrades.ToArray());
+        return new(position, startVelocity, upgrades);
+    }
+
+    public static List<string> CustomParseJSONTeamKeyList(string json)
+    {
+        // Gets all text enclosed in " quotes from a json file
+        // JsonUtility doesn't support dictionaries and the database seems to not support basic arrays (?) so custom parsing was the remaining option
+        List<string> keyList = new();
+        StringBuilder builder = new();
+        bool insideString = false;
+        foreach (char ch in json)
+        {
+            if (insideString)
+            {
+                if (ch == '"')
+                {
+                    keyList.Add(builder.ToString());
+                    builder.Clear();
+                    insideString = false;
+                }
+                else builder.Append(ch);
+            }
+            else if (ch == '"') insideString = true;
+        }
+        return keyList;
     }
 }
 
 [System.Serializable]
-public struct SerializableOrbData
+public struct SerializableOrbSpawner
 {
     [SerializeField] public Vector2 position;
     [SerializeField] public Vector2 startVelocity;
-    [SerializeField] public string[] upgrades;
+    [SerializeField] public List<string> upgrades;
 
-    public SerializableOrbData(Vector2 position, Vector2 startVelocity, string[] upgrades)
+    public SerializableOrbSpawner(Vector2 position, Vector2 startVelocity, List<string> upgrades)
     {
         this.position = position;
         this.startVelocity = startVelocity;
@@ -62,15 +87,10 @@ public struct SerializableOrbData
 [System.Serializable]
 public struct SerializableTeam
 {
-    [SerializeField] public SerializableOrbData[] orbs;
+    [SerializeField] public SerializableOrbSpawner[] orbs;
 
-    public SerializableTeam(SerializableOrbData[] orbs)
+    public SerializableTeam(SerializableOrbSpawner[] orbs)
     {
         this.orbs = orbs;
     }
-}
-[System.Serializable]
-public struct UserData
-{
-    public string name;
 }

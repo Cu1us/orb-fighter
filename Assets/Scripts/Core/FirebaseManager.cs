@@ -6,9 +6,9 @@ using Firebase.Extensions;
 using Firebase.Database;
 using Firebase.Auth;
 using System;
-using System.Data.Common;
-using UnityEngine.UIElements;
 using System.Threading.Tasks;
+using System.Linq;
+using Random = UnityEngine.Random;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -99,7 +99,7 @@ public class FirebaseManager : MonoBehaviour
         });
     }
 
-    public async void LoadRandomEnemyTeam(int round, Action<SerializableTeam?> callback = null)
+    public static async void TryLoadRandomEnemyTeam(int round, Action<SerializableTeam?> callback = null)
     {
         if (!IsDatabaseAvailable())
         {
@@ -107,16 +107,38 @@ public class FirebaseManager : MonoBehaviour
             Debug.LogWarning($"{nameof(FirebaseManager)}: Couldn't load enemy team because the database is unavailable or uninitialized.");
             return;
         }
+
+        // Get list of keys
         Task<DataSnapshot> task = db.RootReference.Child($"teams/random/{round}/keys").GetValueAsync();
         DataSnapshot data = await task;
         if (!task.IsCompletedSuccessfully)
         {
             Debug.LogWarning($"Failed to load team keys for round {round}: {task.Exception}");
+            callback?.Invoke(null);
             return;
         }
         string json = data.GetRawJsonValue();
-        Debug.Log("JSON: " + json);
-        // TODO: Get list of keys from this JSON string and pick a random one to fetch team data at
+        Debug.Log("Loaded JSON for key list: " + json);
+
+        // Pick random key
+        List<string> validKeyList = GameSerializer.CustomParseJSONTeamKeyList(json);
+        string randomKey = validKeyList[Random.Range(0, validKeyList.Count)];
+        Debug.Log("Loaded key: " + randomKey);
+
+        // Get team at key
+        task = db.RootReference.Child($"teams/random/{round}/{randomKey}").GetValueAsync();
+        data = await task;
+        if (!task.IsCompletedSuccessfully)
+        {
+            Debug.LogWarning($"Failed to load team at randomly selected key '{randomKey}' for round {round}: {task.Exception}");
+            callback?.Invoke(null);
+            return;
+        }
+        json = data.GetRawJsonValue();
+
+        SerializableTeam team = JsonUtility.FromJson<SerializableTeam>(json);
+        Debug.Log("Team loaded successfully!");
+        callback?.Invoke(team);
     }
 
     public static void SaveTeam(SerializableTeam teamData, int round)

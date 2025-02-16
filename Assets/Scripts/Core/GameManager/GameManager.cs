@@ -24,7 +24,8 @@ public partial class GameManager : MonoBehaviour
     public GameSettings gameSettings;
 
     [Header("General Scene References")]
-    public OrbSpawnerContainer SpawnerContainer;
+    public OrbSpawnerContainer PlayerSpawnerContainer;
+    public OrbSpawnerContainer EnemySpawnerContainer;
     public Transform SpawnedOrbsContainer;
     public GameObject ShopContainer;
 
@@ -50,7 +51,7 @@ public partial class GameManager : MonoBehaviour
         ContactFilter2D filter = new()
         {
             useLayerMask = true,
-            layerMask = Instance.gameSettings.layersThatBlockOrbPlacement
+            layerMask = Instance.gameSettings.LayersThatBlockOrbPlacement
         };
         int count = Physics2D.OverlapCircle(pos, orbRadius, filter, results);
         results.RemoveAll((x) => x.gameObject == objectToIgnore);

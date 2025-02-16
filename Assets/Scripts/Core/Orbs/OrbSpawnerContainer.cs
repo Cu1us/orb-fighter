@@ -40,4 +40,22 @@ public class OrbSpawnerContainer : MonoBehaviour
             toAdd.gameObject.SetActive(Visible);
         }
     }
+
+    public void Clear()
+    {
+        foreach (OrbSpawner spawner in Spawners)
+        {
+            Destroy(spawner.gameObject);
+        }
+        Spawners.Clear();
+    }
+
+    public void SetupTeam(SerializableTeam team, bool clearPrevious = true)
+    {
+        if (clearPrevious) Clear();
+        foreach (SerializableOrbSpawner orbData in team.orbs)
+        {
+            AddSpawner(OrbSpawner.InstantiateSpawnerFromData(orbData, transform));
+        }
+    }
 }

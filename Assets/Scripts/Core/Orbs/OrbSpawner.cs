@@ -224,6 +224,21 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         return upgrades;
     }
 
+    public static OrbSpawner InstantiateSpawnerFromData(SerializableOrbSpawner data, Transform parent)
+    {
+        OrbSpawner instance = Instantiate(GameManager.Settings.DefaultOrbSpawnerPrefab, data.position, Quaternion.identity, parent);
+        instance.StartVelocityDir = data.startVelocity.normalized;
+        instance.StartVelocityMagnitude = data.startVelocity.magnitude;
+        foreach (string upgradeID in data.upgrades)
+        {
+            if (GameManager.TryGetUpgradeFromID(upgradeID, out Upgrade upgrade))
+            {
+                instance.AddUpgrade(upgrade);
+            }
+        }
+        return instance;
+    }
+
     void Awake()
     {
         arrowRenderer = GetComponentInChildren<ArrowRenderer>();
