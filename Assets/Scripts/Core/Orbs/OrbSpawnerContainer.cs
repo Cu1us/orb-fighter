@@ -6,6 +6,8 @@ public class OrbSpawnerContainer : MonoBehaviour
 {
     public List<OrbSpawner> Spawners = new();
     public bool Visible { get; private set; } = true;
+    public Side spawnSide;
+    public bool SpawnsEnemies;
 
     public void SpawnAll()
     {
@@ -55,7 +57,20 @@ public class OrbSpawnerContainer : MonoBehaviour
         if (clearPrevious) Clear();
         foreach (SerializableOrbSpawner orbData in team.orbs)
         {
-            AddSpawner(OrbSpawner.InstantiateSpawnerFromData(orbData, transform));
+            if (spawnSide == Side.RIGHT)
+            {
+                orbData.position.x = -orbData.position.x;
+                orbData.startVelocity.x = -orbData.startVelocity.x;
+            }
+            OrbSpawner spawner = OrbSpawner.InstantiateSpawnerFromData(orbData, transform);
+            spawner.OwnedByPlayer = !SpawnsEnemies;
+            AddSpawner(spawner);
         }
+    }
+
+    public enum Side
+    {
+        LEFT,
+        RIGHT
     }
 }

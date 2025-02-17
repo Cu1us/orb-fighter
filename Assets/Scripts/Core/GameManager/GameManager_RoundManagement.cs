@@ -114,7 +114,7 @@ public partial class GameManager
             }
             else
             {
-                callback?.Invoke(team.Value);
+                callback?.Invoke(team);
             }
         });
     }

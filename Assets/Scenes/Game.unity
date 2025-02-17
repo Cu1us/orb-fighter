@@ -1027,6 +1027,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Spawners: []
+  spawnSide: 0
+  SpawnsEnemies: 0
 --- !u!4 &309534771
 Transform:
   m_ObjectHideFlags: 0
@@ -4808,6 +4810,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Spawners:
   - {fileID: 1524724585}
+  spawnSide: 1
+  SpawnsEnemies: 1
 --- !u!4 &2038523300
 Transform:
   m_ObjectHideFlags: 0

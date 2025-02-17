@@ -1,13 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Firebase;
 using Firebase.Extensions;
 using Firebase.Database;
 using Firebase.Auth;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
 using Random = UnityEngine.Random;
 
 public class FirebaseManager : MonoBehaviour
@@ -32,9 +31,6 @@ public class FirebaseManager : MonoBehaviour
             db = FirebaseDatabase.DefaultInstance;
             auth = FirebaseAuth.DefaultInstance;
             db.SetPersistenceEnabled(false);
-
-            db.RootReference.Child("Hello").SetValueAsync("World");
-            Debug.Log("Data set!");
 
             SignIn();
         });
@@ -99,7 +95,7 @@ public class FirebaseManager : MonoBehaviour
         });
     }
 
-    public static async void TryLoadRandomEnemyTeam(int round, Action<SerializableTeam?> callback = null)
+    public static async void TryLoadRandomEnemyTeam(int round, Action<SerializableTeam> callback = null)
     {
         if (!IsDatabaseAvailable())
         {

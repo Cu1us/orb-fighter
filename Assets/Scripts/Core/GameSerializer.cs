@@ -71,7 +71,7 @@ public static class GameSerializer
 }
 
 [System.Serializable]
-public struct SerializableOrbSpawner
+public class SerializableOrbSpawner
 {
     [SerializeField] public Vector2 position;
     [SerializeField] public Vector2 startVelocity;
@@ -85,7 +85,7 @@ public struct SerializableOrbSpawner
     }
 }
 [System.Serializable]
-public struct SerializableTeam
+public class SerializableTeam
 {
     [SerializeField] public SerializableOrbSpawner[] orbs;
 
