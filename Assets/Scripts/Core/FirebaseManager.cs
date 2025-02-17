@@ -118,6 +118,12 @@ public class FirebaseManager : MonoBehaviour
 
         // Pick random key
         List<string> validKeyList = GameSerializer.CustomParseJSONTeamKeyList(json);
+        if (validKeyList == null || validKeyList.Count == 0)
+        {
+            Debug.Log($"No keys exist in database for teams at round {round}");
+            callback?.Invoke(null);
+            return;
+        }
         string randomKey = validKeyList[Random.Range(0, validKeyList.Count)];
         Debug.Log("Loaded key: " + randomKey);
 

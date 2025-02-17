@@ -50,6 +50,7 @@ public static class GameSerializer
         // Gets all text enclosed in " quotes from a json file
         // JsonUtility doesn't support dictionaries and the database seems to not support basic arrays (?) so custom parsing was the remaining option
         List<string> keyList = new();
+        if (string.IsNullOrWhiteSpace(json)) return keyList;
         StringBuilder builder = new();
         bool insideString = false;
         foreach (char ch in json)
