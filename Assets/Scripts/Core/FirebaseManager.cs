@@ -8,12 +8,16 @@ using Firebase.Extensions;
 using Firebase.Database;
 using Firebase.Auth;
 using Random = UnityEngine.Random;
+using System.Threading;
 
 public class FirebaseManager : MonoBehaviour
 {
     static FirebaseDatabase db = null;
     static FirebaseAuth auth = null;
     static FirebaseUser user = null;
+
+    static CancellationTokenSource quitCancellationSource = new();
+    static CancellationToken quitCancellationToken = quitCancellationSource.Token;
 
     void Awake()
     {
@@ -22,6 +26,7 @@ public class FirebaseManager : MonoBehaviour
         user = null;
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
+            if (quitCancellationToken.IsCancellationRequested) return;
             if (task.Exception != null)
             {
                 Debug.LogError(task.Exception);
@@ -42,6 +47,7 @@ public class FirebaseManager : MonoBehaviour
 
         auth.SignInAnonymouslyAsync().ContinueWithOnMainThread(task =>
         {
+            if (quitCancellationToken.IsCancellationRequested) return;
             if (task.Exception != null)
             {
                 Debug.LogWarning(task.Exception);
@@ -67,6 +73,7 @@ public class FirebaseManager : MonoBehaviour
         }
         db.RootReference.Child(path).SetRawJsonValueAsync(data).ContinueWithOnMainThread(task =>
         {
+            if (quitCancellationToken.IsCancellationRequested) return;
             bool success = task.IsCompletedSuccessfully;
             callback?.Invoke(success);
             if (!success)
@@ -86,6 +93,7 @@ public class FirebaseManager : MonoBehaviour
         }
         db.RootReference.Child(path).GetValueAsync().ContinueWithOnMainThread(task =>
         {
+            if (quitCancellationToken.IsCancellationRequested) return;
             bool success = task.Exception != null;
             if (!success)
             {
@@ -107,6 +115,7 @@ public class FirebaseManager : MonoBehaviour
         // Get list of keys
         Task<DataSnapshot> task = db.RootReference.Child($"teams/random/{round}/keys").GetValueAsync();
         DataSnapshot data = await task;
+        if (quitCancellationToken.IsCancellationRequested) return;
         if (!task.IsCompletedSuccessfully)
         {
             Debug.LogWarning($"Failed to load team keys for round {round}: {task.Exception}");
@@ -130,6 +139,7 @@ public class FirebaseManager : MonoBehaviour
         // Get team at key
         task = db.RootReference.Child($"teams/random/{round}/{randomKey}").GetValueAsync();
         data = await task;
+        if (quitCancellationToken.IsCancellationRequested) return;
         if (!task.IsCompletedSuccessfully)
         {
             Debug.LogWarning($"Failed to load team at randomly selected key '{randomKey}' for round {round}: {task.Exception}");
@@ -163,5 +173,10 @@ public class FirebaseManager : MonoBehaviour
         {
             Debug.Log(GameSerializer.SerializePlayerTeam(GameSerializer.GetSerializablePlayerTeam()));
         }
+    }
+
+    void OnApplicationQuit()
+    {
+        quitCancellationSource.Cancel();
     }
 }

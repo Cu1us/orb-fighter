@@ -24,7 +24,7 @@ public partial class Orb
     public void Die(DamageInfo damageInfo)
     {
         onDeath?.Invoke(damageInfo);
-        Destroy(gameObject);
+        Remove();
     }
 
     public void MeleeHitOrb(Orb toDamage)

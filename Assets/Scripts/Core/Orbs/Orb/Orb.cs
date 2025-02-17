@@ -44,7 +44,7 @@ public partial class Orb : MonoBehaviour
     {
         onFixedUpdate?.Invoke();
     }
-    void OnDestroy()
+    void Remove()
     {
         onDespawn?.Invoke();
         if (GameManager.HasInstance)
@@ -55,6 +55,7 @@ public partial class Orb : MonoBehaviour
         {
             Destroy(behavior);
         }
+        Destroy(gameObject);
     }
 
     public void SetColor(Color color)
