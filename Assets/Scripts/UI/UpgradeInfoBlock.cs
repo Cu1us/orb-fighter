@@ -8,9 +8,10 @@ using System;
 
 public class UpgradeInfoBlock : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Image Background;
-    public Image Icon;
-    public TextMeshProUGUI Title;
+    [SerializeField] Image Background;
+    [SerializeField] Image Icon;
+    [SerializeField] TextMeshProUGUI Title;
+    [SerializeField] TextMeshProUGUI StackSize;
 
     public Upgrade DisplayedUpgrade;
     public int UpgradeLevel;
@@ -58,6 +59,18 @@ public class UpgradeInfoBlock : MonoBehaviour, IPointerEnterHandler, IPointerExi
         UpgradeLevel = upgradeLevel;
         Icon.sprite = upgradeToDisplay.Icon;
         Title.text = upgradeToDisplay.Name;
+        if (upgradeLevel > 0)
+        {
+            StackSize.text = $"x{upgradeLevel + 1}";
+            if (upgradeLevel >= 4)
+            {
+                StackSize.text += new string('!', (upgradeLevel + 1) / 3);
+            }
+        }
+        else
+        {
+            StackSize.text = string.Empty;
+        }
     }
 
     public void ClearData()

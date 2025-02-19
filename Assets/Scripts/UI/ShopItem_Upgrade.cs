@@ -8,6 +8,22 @@ public class ShopItem_Upgrade : ShopItem
 {
     public Upgrade upgrade;
 
+    public void SetUpgrade(Upgrade upgrade)
+    {
+        this.upgrade = upgrade;
+        UpdateData();
+    }
+    void UpdateData()
+    {
+        image.sprite = upgrade.Icon;
+        ghost.sprite = upgrade.Icon;
+    }
+
+    void Start()
+    {
+        UpdateData();
+    }
+
     protected override void Update()
     {
         if (dragging)

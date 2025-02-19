@@ -98,7 +98,6 @@ public partial class GameManager
     public void LoadAndStartNextRound()
     {
         GameState = State.FIND_OPPONENT;
-        SetShopActive(false);
         Round++;
         OnFindTeam?.Invoke();
         GetEnemyTeam(team =>
@@ -129,8 +128,6 @@ public partial class GameManager
         gameActive = true;
         GameState = State.COMBAT;
         OnRoundStart?.Invoke();
-
-        SetShopActive(false);
 
         PlayerSpawnerContainer.SpawnAll();
         PlayerSpawnerContainer.Hide();
@@ -178,10 +175,9 @@ public partial class GameManager
 
         RoundEndText.gameObject.SetActive(false);
 
+        GameState = State.SHOP;
         OnEnterShop?.Invoke();
         ClearAllActiveOrbs();
-        GameState = State.SHOP;
-        SetShopActive(true);
         PlayerSpawnerContainer.Show();
         EnemySpawnerContainer.Clear();
     }

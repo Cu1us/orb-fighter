@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7135747c07e57b8b9a459d6c6c832f92, type: 3}
   m_Name: Knockback
   m_EditorClassIdentifier: 
-  Icon: {fileID: 0}
+  Icon: {fileID: 21300000, guid: 093d252d1d41041c8b4df35c330dcc59, type: 3}
   Name: Spring
   Description: Collisions with other orbs have increased knockback. Applies to both
     orbs involved in the collision.
