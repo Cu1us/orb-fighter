@@ -16,6 +16,8 @@ public partial class GameManager
     readonly List<Orb> ActivePlayerOrbs = new();
     readonly List<Orb> ActiveEnemyOrbs = new();
 
+    public UnityEvent OnFindTeam;
+    public UnityEvent<SerializableTeam> OnFoundTeam;
     public UnityEvent OnRoundStart;
     public UnityEvent<RoundResult> OnRoundEnd;
     public UnityEvent OnEnterShop;
@@ -96,10 +98,13 @@ public partial class GameManager
     public void LoadAndStartNextRound()
     {
         GameState = State.FIND_OPPONENT;
+        SetShopActive(false);
         Round++;
+        OnFindTeam?.Invoke();
         GetEnemyTeam(team =>
         {
             EnemySpawnerContainer.SetupTeam(team);
+            OnFoundTeam?.Invoke(team);
             StartRound();
         });
     }
@@ -109,7 +114,7 @@ public partial class GameManager
         {
             if (team == null)
             {
-                Debug.Log("Team to set up was null. Offline teams not implemented yet.");
+                Debug.Log($"Received team for round {Round} was null. Offline teams not implemented yet.");
                 // TODO: Get offline team
             }
             else
