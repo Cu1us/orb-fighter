@@ -143,8 +143,18 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
             orb.SetColor(Color.red);
         }
 
+        AddUpgradesToSpawnedOrb(orb, Upgrades);
+
+        GameManager.Instance.RegisterOrb(orb);
+
+        if (disableSelf) gameObject.SetActive(false);
+        return orb;
+    }
+
+    private void AddUpgradesToSpawnedOrb(Orb orb, IEnumerable<Upgrade> upgrades)
+    {
         Dictionary<OrbBehavior, int> behaviors = new();
-        foreach (Upgrade upgrade in Upgrades)
+        foreach (Upgrade upgrade in upgrades)
         {
             if (upgrade.AddBehavior && upgrade.BehaviorToAdd)
             {
@@ -160,16 +170,17 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
                     behaviors.Add(upgrade.BehaviorToAdd, upgrade.BehaviorLevel);
                 }
             }
+            if (upgrade.AddStats)
+            {
+                orb.MaxHealth += upgrade.MaxHealthIncrease;
+                orb.AttackDamage += upgrade.AttackDamageIncrease;
+                orb.rigidbody.mass += upgrade.MassIncrease;
+            }
         }
         foreach (KeyValuePair<OrbBehavior, int> behavior in behaviors)
         {
             orb.AddBehavior(behavior.Key, behavior.Value);
         }
-
-        GameManager.Instance.RegisterOrb(orb);
-
-        if (disableSelf) gameObject.SetActive(false);
-        return orb;
     }
 
     public void AddUpgrade(Upgrade upgrade)
@@ -234,6 +245,10 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
             if (GameManager.TryGetUpgradeFromID(upgradeID, out Upgrade upgrade))
             {
                 instance.AddUpgrade(upgrade);
+            }
+            else
+            {
+                Debug.LogWarning($"Couldn't apply unknown upgrade with ID '{upgrade}' to enemy orb.", instance);
             }
         }
         return instance;

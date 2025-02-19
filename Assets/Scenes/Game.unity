@@ -4991,8 +4991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 858cb876ad1e25a0eaac0ef6e79ddfd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spawners:
-  - {fileID: 0}
+  Spawners: []
   spawnSide: 1
   SpawnsEnemies: 1
 --- !u!4 &2038523300
