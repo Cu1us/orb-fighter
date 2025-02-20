@@ -36,7 +36,7 @@ public class FindOpponentScreen : MonoBehaviour
     }
     public void OnFoundTeam(SerializableTeam team)
     {
-        LoadingText.text = "Found opponent!";
+        LoadingText.text = "Done!";
         FadeOut();
     }
     public void FadeIn()
