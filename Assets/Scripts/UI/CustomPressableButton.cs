@@ -25,7 +25,6 @@ public class CustomPressableButton : Button
     protected override void DoStateTransition(SelectionState state, bool instant)
     {
         base.DoStateTransition(state, instant);
-        Debug.Log("Changed state to: " + state.ToString() + ", instant: " + instant.ToString());
         SetChildOffset(state switch
         {
             SelectionState.Highlighted => highlightedChildOffset,
