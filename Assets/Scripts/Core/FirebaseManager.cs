@@ -149,7 +149,7 @@ public class FirebaseManager : MonoBehaviour
         json = data.GetRawJsonValue();
 
         SerializableTeam team = JsonUtility.FromJson<SerializableTeam>(json);
-        Debug.Log("Team loaded successfully!");
+        Debug.Log("Team loaded successfully! JSON: " + json);
         callback?.Invoke(team);
     }
 
