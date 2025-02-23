@@ -17,3 +17,5 @@ MonoBehaviour:
     m_Bits: 192
   DefaultOrbSpawnerPrefab: {fileID: 2424120212060679390, guid: 5286d0aac6cd1b3a78d6ea1b1b92641b, type: 3}
   UpgradeIDMap: {fileID: 11400000, guid: 5aa57a2d61b44863d98e4db65007b67d, type: 2}
+  OfflineTeamLists:
+  - {fileID: 11400000, guid: 56784242c9b162a79914b34c38e41133, type: 2}

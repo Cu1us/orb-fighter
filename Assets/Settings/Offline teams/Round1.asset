@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed418289fd725a4b1996238856dc2cee, type: 3}
   m_Name: Round1
   m_EditorClassIdentifier: 
-  Teams: []
+  Teams:
+  - orbs:
+    - position: {x: 2.4497564, y: -0.9747994}
+      startVelocity: {x: -5.754783, y: 5.060795}
+      upgrades: []

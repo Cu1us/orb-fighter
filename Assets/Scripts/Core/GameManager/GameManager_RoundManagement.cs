@@ -18,7 +18,7 @@ public partial class GameManager
 
     public UnityEvent OnFindTeam;
     public UnityEvent<SerializableTeam> OnFoundTeam;
-    public UnityEvent OnRoundStart;
+    public UnityEvent<int> OnRoundStart;
     public UnityEvent<RoundResult> OnRoundEnd;
     public UnityEvent OnEnterShop;
 
@@ -113,8 +113,17 @@ public partial class GameManager
         {
             if (team == null)
             {
-                Debug.Log($"Received team for round {Round} was null. Offline teams not implemented yet.");
-                // TODO: Get offline team
+                Debug.LogWarning($"Received team for round {Round} was null. Getting offline team.");
+                team = Settings.GetOfflineTeam(Round);
+                if (team != null)
+                {
+                    callback.Invoke(team);
+                }
+                else
+                {
+                    Debug.LogError("Failed to get offline team. Returning empty team.");
+                    callback.Invoke(new SerializableTeam(new SerializableOrbSpawner[0]));
+                }
             }
             else
             {
@@ -127,7 +136,7 @@ public partial class GameManager
     {
         gameActive = true;
         GameState = State.COMBAT;
-        OnRoundStart?.Invoke();
+        OnRoundStart?.Invoke(Round);
 
         PlayerSpawnerContainer.SpawnAll();
         PlayerSpawnerContainer.Hide();
