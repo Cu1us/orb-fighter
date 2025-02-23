@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class Shop : MonoBehaviour
 {
@@ -14,11 +15,26 @@ public class Shop : MonoBehaviour
     [SerializeField] float FadeOutDuration;
     [SerializeField] Ease FadeOutType;
 
+    [Header("References")]
+    [SerializeField] TextMeshProUGUI RoundCounter;
+    [SerializeField] TextMeshProUGUI CurrencyCounter;
+
+    void Start()
+    {
+        UpdateRoundCounter();
+    }
+    public void UpdateRoundCounter()
+    {
+        RoundCounter.text = $"Round {GameManager.Round + 1}";
+    }
+    public void SetDisplayedCurrency(int currency)
+    {
+        CurrencyCounter.text = currency.ToString();
+    }
     public void OnClickNextRound()
     {
         GameManager.Instance.TryStartNextRound();
     }
-
     public void FadeIn()
     {
         CancelInvoke(nameof(Hide));
