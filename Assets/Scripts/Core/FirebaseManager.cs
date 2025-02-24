@@ -160,9 +160,10 @@ public class FirebaseManager : MonoBehaviour
         Debug.Log("Trying to save team... User id: " + userID);
         SetData($"teams/random/{round}/{userID}", serializedTeam, success =>
         {
+            Debug.Log("Wrote team data with success: " + success);
             if (success)
             {
-                SetData($"teams/random/{round}/keys/{userID}", "1", success => Debug.Log("Successfully saved team data!"));
+                SetData($"teams/random/{round}/keys/{userID}", round.ToString(), success => Debug.Log("Successfully saved team data: " + success));
             }
         });
     }
