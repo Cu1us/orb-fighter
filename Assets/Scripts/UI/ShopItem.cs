@@ -1,16 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public static ShopItem HeldShopItem;
+
     [SerializeField] protected RectTransform slot;
     [SerializeField] protected Image image;
     [SerializeField] protected Image ghost;
+    [SerializeField] protected TextMeshProUGUI costLabel;
+    [SerializeField] protected Image currencyIcon;
+    [SerializeField] Color costLabelColor;
     [SerializeField] float TimeBeforeInfoBoxShowsUp;
+
+    public int Cost;
 
     protected bool dragging;
     protected Vector2 dragScreenPos;
@@ -27,6 +35,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         image.enabled = false;
         ghost.enabled = true;
         dragging = true;
+        HeldShopItem = this;
     }
 
     public virtual void OnDrag(PointerEventData eventData)
@@ -39,6 +48,8 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         ResetGhost();
         dragging = false;
+        if (HeldShopItem == this)
+            HeldShopItem = null;
     }
 
     void ResetGhost()
@@ -51,6 +62,8 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     void OnDisable()
     {
         ResetGhost();
+        if (HeldShopItem == this)
+            HeldShopItem = null;
     }
 
     protected virtual void Update()
@@ -61,6 +74,18 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             {
                 ShowInfoBox();
             }
+        }
+        if (Bank.CanAfford(Cost))
+        {
+            costLabel.color = costLabelColor;
+            currencyIcon.color = Color.white;
+            ghost.color = Color.white;
+        }
+        else
+        {
+            costLabel.color = Color.red;
+            currencyIcon.color = Color.red;
+            ghost.color = Color.red;
         }
     }
 

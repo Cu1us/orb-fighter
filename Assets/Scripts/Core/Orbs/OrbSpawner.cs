@@ -17,6 +17,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     [Header("Settings")]
     public float velocityArrowLength;
     public float holdTimeToMoveObject;
+    public int MaxSlots;
 
     [Header("Orb data")]
     public Orb Prefab;
@@ -182,7 +183,13 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
             orb.AddBehavior(behavior.Key, behavior.Value);
         }
     }
-
+    public int GetUsedSlotsCount()
+    {
+        int usedSlots = 0;
+        foreach (Upgrade upgrade in Upgrades)
+            usedSlots += upgrade.SlotsReq;
+        return usedSlots;
+    }
     public void AddUpgrade(Upgrade upgrade)
     {
         Upgrades.Add(upgrade);
@@ -197,10 +204,14 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     public bool CanAddUpgrade(Upgrade upgradeToAdd)
     {
         int existingUpgrades = 0;
+        int usedSlots = 0;
         foreach (Upgrade upgrade in Upgrades)
+        {
             if (upgrade == upgradeToAdd)
                 existingUpgrades++;
-        return existingUpgrades < upgradeToAdd.MaxInstancesPerOrb;
+            usedSlots += upgradeToAdd.SlotsReq;
+        }
+        return usedSlots + upgradeToAdd.SlotsReq <= MaxSlots && existingUpgrades < upgradeToAdd.MaxInstancesPerOrb;
     }
 
     public void Highlight(Color color, float duration = 0)

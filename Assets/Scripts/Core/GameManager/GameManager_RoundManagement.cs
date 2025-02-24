@@ -166,6 +166,8 @@ public partial class GameManager
         OnRoundEnd?.Invoke(result);
         Invoke(nameof(BackToShop), 3);
 
+        Bank.Add(Settings.StartingCurrency);
+
         RoundEndText.text = result switch
         {
             RoundResult.VICTORY => "YOU WIN !!!",

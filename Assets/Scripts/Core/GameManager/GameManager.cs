@@ -18,10 +18,12 @@ public partial class GameManager : MonoBehaviour
         }
     }
     public static bool HasInstance { get { return _instance != null; } }
-    public static GameSettings Settings { get { return Instance?.gameSettings; } }
+
 
     [Header("Game Settings Asset")]
     public GameSettings gameSettings;
+    public static GameSettings Settings { get { return Instance?.gameSettings; } }
+
 
     [Header("General Scene References")]
     public OrbSpawnerContainer PlayerSpawnerContainer;

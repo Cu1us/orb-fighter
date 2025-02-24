@@ -9,6 +9,8 @@ public class GameSettings : ScriptableObject
     public OrbSpawner DefaultOrbSpawnerPrefab;
     public AssetMap UpgradeIDMap;
 
+    public int StartingCurrency;
+
     public OfflineTeamList[] OfflineTeamLists;
 
     public SerializableTeam GetOfflineTeam(int round) => OfflineTeamLists[Mathf.Clamp(round, 0, OfflineTeamLists.Length - 1)].GetRandomTeam();

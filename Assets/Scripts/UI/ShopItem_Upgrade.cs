@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,6 +8,8 @@ using UnityEngine.EventSystems;
 public class ShopItem_Upgrade : ShopItem
 {
     public Upgrade upgrade;
+
+    [SerializeField] TextMeshProUGUI slotsRequiredLabel;
 
     public void SetUpgrade(Upgrade upgrade)
     {
@@ -17,6 +20,8 @@ public class ShopItem_Upgrade : ShopItem
     {
         image.sprite = upgrade.Icon;
         ghost.sprite = upgrade.Icon;
+        slotsRequiredLabel.text = upgrade.SlotsReq.ToString();
+        costLabel.text = upgrade.Cost.ToString();
     }
 
     void Start()
@@ -41,7 +46,10 @@ public class ShopItem_Upgrade : ShopItem
         base.OnEndDrag(eventData);
         if (RaycastForSpawner(out OrbSpawner spawner) && CanApplyUpgradeTo(spawner))
         {
-            ApplyUpgradeTo(spawner);
+            if (Bank.TryDeduct(upgrade.Cost))
+            {
+                ApplyUpgradeTo(spawner);
+            }
         }
     }
 
