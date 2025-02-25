@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 public class ShopItem_Upgrade : ShopItem
@@ -10,6 +11,7 @@ public class ShopItem_Upgrade : ShopItem
     public Upgrade upgrade;
 
     [SerializeField] TextMeshProUGUI slotsRequiredLabel;
+    [SerializeField] Image slotsRequiredIcon;
 
     public void SetUpgrade(Upgrade upgrade)
     {
@@ -18,6 +20,7 @@ public class ShopItem_Upgrade : ShopItem
     }
     void UpdateData()
     {
+        SetEmptyState(false);
         image.sprite = upgrade.Icon;
         ghost.sprite = upgrade.Icon;
         slotsRequiredLabel.text = upgrade.SlotsReq.ToString();
@@ -29,9 +32,16 @@ public class ShopItem_Upgrade : ShopItem
         UpdateData();
     }
 
+    public override void SetEmptyState(bool empty)
+    {
+        base.SetEmptyState(empty);
+        slotsRequiredLabel.enabled = !empty;
+        slotsRequiredIcon.enabled = !empty;
+    }
+
     protected override void Update()
     {
-        if (dragging)
+        if (dragging && !IsEmpty)
         {
             if (RaycastForSpawner(out OrbSpawner spawner))
             {
@@ -44,11 +54,12 @@ public class ShopItem_Upgrade : ShopItem
     public override void OnEndDrag(PointerEventData eventData)
     {
         base.OnEndDrag(eventData);
-        if (RaycastForSpawner(out OrbSpawner spawner) && CanApplyUpgradeTo(spawner))
+        if (!IsEmpty && RaycastForSpawner(out OrbSpawner spawner) && CanApplyUpgradeTo(spawner))
         {
             if (Bank.TryDeduct(upgrade.Cost))
             {
                 ApplyUpgradeTo(spawner);
+                SetEmptyState(true);
             }
         }
     }

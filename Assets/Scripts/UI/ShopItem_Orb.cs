@@ -33,6 +33,7 @@ public class ShopItem_Orb : ShopItem
     public override void OnDrag(PointerEventData eventData)
     {
         base.OnDrag(eventData);
+        if (IsEmpty) return;
 
         Vector2 point = Camera.main.ScreenToWorldPoint(ghost.rectTransform.position);
 
@@ -41,7 +42,7 @@ public class ShopItem_Orb : ShopItem
 
         GameManager.Instance.EnemyAreaWarningBox.enabled = inEnemyArea && !isAboveShopUI;
 
-        (int overlappingCount, List<Collider2D> overlappingColliders) = GetOverlappingColliders(point);
+        (int overlappingCount, _) = GetOverlappingColliders(point);
 
         if ((overlappingCount > 0 || inEnemyArea) && !isAboveShopUI)
         {
@@ -75,6 +76,8 @@ public class ShopItem_Orb : ShopItem
 
     public override void OnEndDrag(PointerEventData eventData)
     {
+        if (IsEmpty) return;
+
         GameManager.Instance.EnemyAreaWarningBox.enabled = false;
 
         Vector2 point = Camera.main.ScreenToWorldPoint(ghost.rectTransform.position);
@@ -85,6 +88,7 @@ public class ShopItem_Orb : ShopItem
             if (overlappingCount == 0 && Bank.TryDeduct(Cost))
             {
                 PlaceSpawnerAt(point);
+                SetEmptyState(true);
             }
         }
 

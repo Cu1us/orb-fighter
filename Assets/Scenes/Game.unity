@@ -382,6 +382,7 @@ MonoBehaviour:
   costLabelColor: {r: 0.7529412, g: 0.78039217, b: 0.5058824, a: 1}
   TimeBeforeInfoBoxShowsUp: 0.3
   Cost: 3
+  IsEmpty: 0
   spawnerToPlace: {fileID: 2424120212060679390, guid: 5286d0aac6cd1b3a78d6ea1b1b92641b, type: 3}
   layersThatBlockPlacement:
     serializedVersion: 2
@@ -530,8 +531,10 @@ MonoBehaviour:
   costLabelColor: {r: 0.7529412, g: 0.78039217, b: 0.5058824, a: 1}
   TimeBeforeInfoBoxShowsUp: 0.3
   Cost: 2
+  IsEmpty: 0
   upgrade: {fileID: 11400000, guid: 95fa8b91932b31579a76d5e772e75d01, type: 2}
   slotsRequiredLabel: {fileID: 8295839105103412758}
+  slotsRequiredIcon: {fileID: 6983241216044314369}
 --- !u!114 &133772934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -988,7 +991,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &228273796
@@ -2070,7 +2073,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &710561252
@@ -4652,7 +4655,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1462061928
@@ -5191,7 +5194,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1575842701

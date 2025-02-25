@@ -19,6 +19,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [SerializeField] float TimeBeforeInfoBoxShowsUp;
 
     public int Cost;
+    public bool IsEmpty;
 
     protected bool dragging;
     protected Vector2 dragScreenPos;
@@ -30,6 +31,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public virtual void OnBeginDrag(PointerEventData eventData)
     {
+        if (IsEmpty) return;
         ghost.rectTransform.position = image.rectTransform.position;
         ghost.sprite = image.sprite;
         image.enabled = false;
@@ -40,6 +42,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public virtual void OnDrag(PointerEventData eventData)
     {
+        if (IsEmpty) return;
         ghost.rectTransform.position += (Vector3)eventData.delta;
         dragScreenPos = eventData.position;
     }
@@ -54,7 +57,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     void ResetGhost()
     {
-        image.enabled = true;
+        image.enabled = !IsEmpty;
         ghost.enabled = false;
         ghost.rectTransform.position = image.rectTransform.position;
     }
@@ -68,24 +71,27 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     protected virtual void Update()
     {
-        if (pointerOver && Time.time - pointerOverStartTime > TimeBeforeInfoBoxShowsUp)
+        if (!IsEmpty)
         {
-            if (infoBoxGuid == Guid.Empty)
+            if (pointerOver && Time.time - pointerOverStartTime > TimeBeforeInfoBoxShowsUp)
             {
-                ShowInfoBox();
+                if (infoBoxGuid == Guid.Empty)
+                {
+                    ShowInfoBox();
+                }
             }
-        }
-        if (Bank.CanAfford(Cost))
-        {
-            costLabel.color = costLabelColor;
-            currencyIcon.color = Color.white;
-            ghost.color = Color.white;
-        }
-        else
-        {
-            costLabel.color = Color.red;
-            currencyIcon.color = Color.red;
-            ghost.color = Color.red;
+            if (Bank.CanAfford(Cost))
+            {
+                costLabel.color = costLabelColor;
+                currencyIcon.color = Color.white;
+                ghost.color = Color.white;
+            }
+            else
+            {
+                costLabel.color = Color.red;
+                currencyIcon.color = Color.red;
+                ghost.color = Color.red;
+            }
         }
     }
 
@@ -101,6 +107,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (IsEmpty) return;
         pointerOver = true;
         pointerOverStartTime = Time.time;
     }
@@ -110,5 +117,23 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         pointerOver = false;
         InfoBox.Instance.RemoveIfGuidMatches(infoBoxGuid);
         infoBoxGuid = Guid.Empty;
+    }
+
+    public virtual void SetEmptyState(bool empty)
+    {
+        IsEmpty = empty;
+        if (empty)
+        {
+            pointerOver = false;
+            InfoBox.Instance.RemoveIfGuidMatches(infoBoxGuid);
+            infoBoxGuid = Guid.Empty;
+            ResetGhost();
+            if (HeldShopItem == this)
+                HeldShopItem = null;
+        }
+        image.enabled = !empty;
+        ghost.enabled = !empty;
+        costLabel.enabled = !empty;
+        currencyIcon.enabled = !empty;
     }
 }
