@@ -22,7 +22,9 @@ public partial class GameManager
     public UnityEvent<RoundResult> OnRoundEnd;
     public UnityEvent OnEnterShop;
 
-    public bool gameActive;
+    public bool GameActive;
+    public float GameStartTime;
+    public float GameTime => Time.time - GameStartTime;
 
     public TextMeshProUGUI RoundEndText;
 
@@ -49,7 +51,7 @@ public partial class GameManager
 
     void CheckForRoundEnd()
     {
-        if (!gameActive || (ActivePlayerOrbs.Count > 0 && ActiveEnemyOrbs.Count > 0))
+        if (!GameActive || (ActivePlayerOrbs.Count > 0 && ActiveEnemyOrbs.Count > 0))
             return; // Game still ongoing
 
         if (ActivePlayerOrbs.Count == 0)
@@ -134,7 +136,7 @@ public partial class GameManager
 
     public void StartRound()
     {
-        gameActive = true;
+        GameActive = true;
         GameState = State.COMBAT;
         OnRoundStart?.Invoke(Round);
 
@@ -144,6 +146,7 @@ public partial class GameManager
         EnemySpawnerContainer.SpawnAll();
         EnemySpawnerContainer.Hide();
 
+        GameStartTime = Time.time - 1;
         Invoke(nameof(TakeoffAllOrbs), 1f);
     }
 
@@ -162,7 +165,7 @@ public partial class GameManager
 
     public void RoundEnd(RoundResult result)
     {
-        gameActive = false;
+        GameActive = false;
         OnRoundEnd?.Invoke(result);
         Invoke(nameof(BackToShop), 3);
 
