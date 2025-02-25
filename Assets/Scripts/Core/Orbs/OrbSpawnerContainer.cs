@@ -62,8 +62,7 @@ public class OrbSpawnerContainer : MonoBehaviour
                 orbData.position.x = -orbData.position.x;
                 orbData.startVelocity.x = -orbData.startVelocity.x;
             }
-            OrbSpawner spawner = OrbSpawner.InstantiateSpawnerFromData(orbData, transform);
-            spawner.OwnedByPlayer = !SpawnsEnemies;
+            OrbSpawner spawner = OrbSpawner.InstantiateSpawnerFromData(orbData, transform, !SpawnsEnemies);
             AddSpawner(spawner);
         }
     }

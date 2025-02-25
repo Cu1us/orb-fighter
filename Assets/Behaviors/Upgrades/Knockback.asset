@@ -16,8 +16,8 @@ MonoBehaviour:
   Name: Spring
   Description: Collisions with other orbs have increased knockback. Applies to both
     orbs involved in the collision.
-  Cost: 0
-  SlotsReq: 0
+  Cost: 1
+  SlotsReq: 2
   MaxInstancesPerOrb: 3
   AddBehavior: 1
   BehaviorToAdd: {fileID: 11400000, guid: e896bb9150b055964b4073aeb98e57e2, type: 2}

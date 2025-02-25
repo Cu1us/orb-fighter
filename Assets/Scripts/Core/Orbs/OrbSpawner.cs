@@ -8,19 +8,22 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(SpriteRenderer))]
 public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+
     [Header("References")]
     [SerializeField] SpriteRenderer highlight;
-    [SerializeField] Transform VisualEffectsContainer;
+    [SerializeField] MeshRenderer sphereRenderer;
     [SerializeField][HideInInspector] SpriteRenderer spriteRenderer;
     [SerializeField][HideInInspector] ArrowRenderer arrowRenderer;
+    [SerializeField] Transform VisualEffectsContainer;
 
     [Header("Settings")]
     public float velocityArrowLength;
     public float holdTimeToMoveObject;
-    public int MaxSlots;
 
     [Header("Orb data")]
     public Orb Prefab;
+    public int MaxSlots;
+    public Texture2D Icon;
 
     public readonly List<Upgrade> Upgrades = new();
 
@@ -139,10 +142,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         orb.Health = orb.MaxHealth = MaxHealth;
         orb.AttackDamage = AttackDamage;
 
-        if (!OwnedByPlayer)
-        {
-            orb.SetColor(Color.red);
-        }
+        orb.renderer.material = sphereRenderer.material;
 
         AddUpgradesToSpawnedOrb(orb, Upgrades);
 
@@ -220,6 +220,14 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         highlight.enabled = true;
         highlight.color = color;
     }
+    public void SetIcon(Texture2D icon)
+    {
+        sphereRenderer.material.mainTexture = icon;
+    }
+    public void SetColor(Color color)
+    {
+        sphereRenderer.material.color = color;
+    }
 
     void Update()
     {
@@ -246,11 +254,12 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         return upgrades;
     }
 
-    public static OrbSpawner InstantiateSpawnerFromData(SerializableOrbSpawner data, Transform parent)
+    public static OrbSpawner InstantiateSpawnerFromData(SerializableOrbSpawner data, Transform parent, bool ownedByPlayer = false)
     {
         OrbSpawner instance = Instantiate(GameManager.Settings.DefaultOrbSpawnerPrefab, data.position, Quaternion.identity, parent);
         instance.StartVelocityDir = data.startVelocity.normalized;
         instance.StartVelocityMagnitude = data.startVelocity.magnitude;
+        instance.OwnedByPlayer = ownedByPlayer;
         foreach (string upgradeID in data.upgrades)
         {
             if (GameManager.TryGetUpgradeFromID(upgradeID, out Upgrade upgrade))
@@ -262,6 +271,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
                 Debug.LogWarning($"Couldn't apply unknown upgrade with ID '{upgrade}' to enemy orb.", instance);
             }
         }
+        instance.UpdateIconAndColor();
         return instance;
     }
 
@@ -271,6 +281,17 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         if (arrowRenderer == null)
             Debug.LogError($"Orb spawner \"{name}\": Could not find an arrow renderer among children", this);
         UpdateVelocityArrow();
+    }
+
+    void Start()
+    {
+        UpdateIconAndColor();
+    }
+
+    public void UpdateIconAndColor()
+    {
+        SetIcon(Icon);
+        SetColor(OwnedByPlayer ? GameManager.Settings.PlayerOrbColor : GameManager.Settings.EnemyOrbColor);
     }
 
     [ContextMenu("Reset private component references")]

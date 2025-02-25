@@ -10,7 +10,7 @@ public partial class Orb : MonoBehaviour
     public Transform VisualEffectsContainer;
     [HideInInspector] new public Rigidbody2D rigidbody;
     [HideInInspector] new public Collider2D collider;
-    [HideInInspector] new public SpriteRenderer renderer;
+    new public MeshRenderer renderer;
 
     readonly List<OrbBehavior> ActiveBehaviors = new();
 
@@ -60,7 +60,11 @@ public partial class Orb : MonoBehaviour
 
     public void SetColor(Color color)
     {
-        renderer.color = color;
+        renderer.material.color = color;
+    }
+    public void SetIcon(Texture2D icon)
+    {
+        renderer.material.mainTexture = icon;
     }
 
     public OrbBehavior AddBehavior(OrbBehavior behaviorToClone, int level)
@@ -89,7 +93,6 @@ public partial class Orb : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
-        renderer = GetComponent<SpriteRenderer>();
     }
 }
 

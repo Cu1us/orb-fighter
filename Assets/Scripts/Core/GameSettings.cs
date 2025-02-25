@@ -9,6 +9,9 @@ public class GameSettings : ScriptableObject
     public OrbSpawner DefaultOrbSpawnerPrefab;
     public AssetMap UpgradeIDMap;
 
+    public Color PlayerOrbColor;
+    public Color EnemyOrbColor;
+
     public int StartingCurrency;
 
     public OfflineTeamList[] OfflineTeamLists;
