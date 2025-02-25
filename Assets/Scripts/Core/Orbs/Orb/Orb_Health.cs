@@ -14,6 +14,7 @@ public partial class Orb
         DamageInfo damageInfo = new(damage, cause, damager);
         Health -= damage;
         onTakeDamage?.Invoke(damageInfo);
+        DisplayHealthFractionOnMaterial();
         if (Health <= 0)
         {
             Health = 0;
