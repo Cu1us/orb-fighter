@@ -61,6 +61,22 @@ public class InfoBox : MonoBehaviour, IPointerClickHandler, IDeselectHandler
         Guid guid = Show(anchoredPosition);
         return guid;
     }
+    public Guid ShowOrbType(OrbType type, Vector2 anchoredPosition)
+    {
+        Title.text = type.Name;
+        Description.text = type.Description;
+        StatsHeader.text = "Orb stats:";
+
+        AttackBonus.text = type.StartingAttackDamage.ToString();
+        HealthBonus.text = type.StartingHealth.ToString();
+
+        StatsContainer.SetActive(true);
+        AttackBonusContainer.SetActive(true);
+        HealthBonusContainer.SetActive(true);
+
+        Guid guid = Show(anchoredPosition);
+        return guid;
+    }
 
     public Guid Show(Vector2 anchoredPosition, Vector2 pivot)
     {

@@ -8,6 +8,7 @@ public class OrbType : ScriptableObject
     public Orb OrbPrefab;
     public string Name;
     public string Description;
+    public int Cost;
     public Texture2D OrbIcon;
     public Sprite UIIcon;
     public int MaxSlots;

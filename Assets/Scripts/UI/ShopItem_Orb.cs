@@ -131,4 +131,9 @@ public class ShopItem_Orb : ShopItem
         spawner.SetIcon(orbType.OrbIcon);
         GameManager.Instance.PlayerSpawnerContainer.AddSpawner(spawner);
     }
+
+    protected override void ShowInfoBox()
+    {
+        infoBoxGuid = InfoBox.Instance.ShowOrbType(orbType, GetInfoBoxPosition());
+    }
 }
