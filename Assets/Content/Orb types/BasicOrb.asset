@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64c06729bcb3f2980bcda8e5840f6115, type: 3}
+  m_Name: BasicOrb
+  m_EditorClassIdentifier: 
+  OrbPrefab: {fileID: 3853820783085151679, guid: f833284a516b62bb18b72d68b1c9a565, type: 3}
+  Name: Basic Orb
+  Description: This orb doesn't really do anything besides the usual
+  OrbIcon: {fileID: 2800000, guid: 606e3b93d48727312b80da3aba9ab0d1, type: 3}
+  UIIcon: {fileID: 21300000, guid: 606e3b93d48727312b80da3aba9ab0d1, type: 3}
+  MaxSlots: 7
+  StartingHealth: 2
+  StartingAttackDamage: 3
+  StartingBehaviors:
+  - {fileID: 11400000, guid: e896bb9150b055964b4073aeb98e57e2, type: 2}

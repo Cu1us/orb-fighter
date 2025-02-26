@@ -26,6 +26,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     public Texture2D Icon;
 
     public readonly List<Upgrade> Upgrades = new();
+    public OrbBehavior[] StartingBehaviors;
 
     readonly List<OrbVFX> ActiveVFX = new();
 
@@ -177,6 +178,10 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         foreach (KeyValuePair<OrbBehavior, int> behavior in behaviors)
         {
             orb.AddBehavior(behavior.Key, behavior.Value);
+        }
+        foreach (OrbBehavior presetBehavior in StartingBehaviors)
+        {
+            orb.AddBehavior(presetBehavior, 0);
         }
     }
     public int GetUsedSlotsCount()

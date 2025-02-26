@@ -1,21 +1,47 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ShopItem_Orb : ShopItem
 {
     public OrbSpawner spawnerToPlace;
+    public OrbType orbType;
     public LayerMask layersThatBlockPlacement;
+    public TextMeshProUGUI attackDamageLabel;
+    public TextMeshProUGUI maxHealthLabel;
+    public GameObject statsContainer;
 
     RectTransform shopContainer;
 
     void Start()
     {
         shopContainer = GameManager.Instance.ShopContainer.GetComponent<RectTransform>();
+        RefreshData();
         ResizeIconsToMatchOrbsInWorld();
         costLabel.text = Cost.ToString();
+    }
+
+    public void SetOrbType(OrbType type)
+    {
+        orbType = type;
+        RefreshData();
+    }
+
+    public override void SetEmptyState(bool empty)
+    {
+        base.SetEmptyState(empty);
+        statsContainer.SetActive(!empty);
+    }
+
+    public void RefreshData()
+    {
+        image.sprite = orbType.UIIcon;
+        ghost.sprite = orbType.UIIcon;
+        attackDamageLabel.text = orbType.StartingAttackDamage.ToString();
+        maxHealthLabel.text = orbType.StartingHealth.ToString();
     }
 
     void ResizeIconsToMatchOrbsInWorld()
@@ -98,6 +124,11 @@ public class ShopItem_Orb : ShopItem
     void PlaceSpawnerAt(Vector3 spawnPoint)
     {
         OrbSpawner spawner = Instantiate(spawnerToPlace, spawnPoint, Quaternion.identity, GameManager.Instance.PlayerSpawnerContainer.transform);
+        spawner.StartingBehaviors = orbType.StartingBehaviors;
+        spawner.MaxHealth = orbType.StartingHealth;
+        spawner.AttackDamage = orbType.StartingAttackDamage;
+        spawner.MaxSlots = orbType.MaxSlots;
+        spawner.SetIcon(orbType.OrbIcon);
         GameManager.Instance.PlayerSpawnerContainer.AddSpawner(spawner);
     }
 }

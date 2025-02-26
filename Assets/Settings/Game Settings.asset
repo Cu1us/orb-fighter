@@ -15,10 +15,11 @@ MonoBehaviour:
   LayersThatBlockOrbPlacement:
     serializedVersion: 2
     m_Bits: 192
-  DefaultOrbSpawnerPrefab: {fileID: 2424120212060679390, guid: 5286d0aac6cd1b3a78d6ea1b1b92641b, type: 3}
-  UpgradeIDMap: {fileID: 11400000, guid: 5aa57a2d61b44863d98e4db65007b67d, type: 2}
   PlayerOrbColor: {r: 0.47058824, g: 0.7372549, b: 0.38039216, a: 1}
   EnemyOrbColor: {r: 0.73333335, g: 0.26666668, b: 0.1882353, a: 1}
   StartingCurrency: 5
+  DefaultOrbSpawnerPrefab: {fileID: 2424120212060679390, guid: 5286d0aac6cd1b3a78d6ea1b1b92641b, type: 3}
+  UpgradeMap: {fileID: 11400000, guid: c5d9c5992c4e144bab5d6c1da28f0fb2, type: 2}
+  OrbTypeMap: {fileID: 11400000, guid: c4138c1d6c64f51a2ad0f42c8c2aa3fa, type: 2}
   OfflineTeamLists:
   - {fileID: 11400000, guid: 56784242c9b162a79914b34c38e41133, type: 2}
