@@ -97,7 +97,8 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     protected Vector2 GetInfoBoxPosition()
     {
-        return slot.position + new Vector3(-slot.rect.width, slot.rect.height) / 2;
+        // NOTE: Not perfect, but I honestly don't know to fix the inaccuracies that occur on non-standard aspect ratios
+        return ((Vector2)slot.position + new Vector2(-slot.rect.width, slot.rect.height) / 2)/ new Vector2(Screen.width, Screen.height) * GameManager.Instance.MainCanvasScaler.referenceResolution;
     }
 
     protected virtual void ShowInfoBox()
