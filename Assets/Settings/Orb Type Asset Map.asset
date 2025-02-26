@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec28409946ff85cb998ac59e8e10fd8c, type: 3}
-  m_Name: Asset Map
+  m_Script: {fileID: 11500000, guid: 6fab726597a6a47a4ad9394038c16040, type: 3}
+  m_Name: Orb Type Asset Map
   m_EditorClassIdentifier: 
   Preload: 0
-  Maps:
-  - Key: knockback
-    Value: {fileID: 11400000, guid: 95fa8b91932b31579a76d5e772e75d01, type: 2}
+  Maps: []
