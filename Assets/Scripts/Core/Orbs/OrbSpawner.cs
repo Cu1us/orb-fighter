@@ -11,8 +11,8 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
 
     [Header("References")]
     [SerializeField] SpriteRenderer highlight;
+    [SerializeField] SpriteRenderer overlay;
     [SerializeField] MeshRenderer sphereRenderer;
-    [SerializeField][HideInInspector] SpriteRenderer spriteRenderer;
     [SerializeField][HideInInspector] ArrowRenderer arrowRenderer;
     [SerializeField] Transform VisualEffectsContainer;
 
@@ -43,7 +43,6 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     bool dragModeMove = false;
     Vector2 dragScreenPosition;
     Vector2 dragStartingPos;
-    int baseOrderInLayer;
     float highlightUntilTime;
 
     #region Pointer events
@@ -54,15 +53,12 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         dragging = true;
         dragScreenPosition = eventData.position;
         dragStartingPos = transform.position;
-        baseOrderInLayer = spriteRenderer.sortingOrder;
-        spriteRenderer.sortingOrder = baseOrderInLayer + 1;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         dragScreenPosition += eventData.delta;
         Vector2 dragWorldPosition = GameManager.Instance.mainCamera.ScreenToWorldPoint(dragScreenPosition);
-        Debug.DrawLine(transform.position, dragWorldPosition, Color.red, 0.2f);
         if (dragModeMove)
         {
             DragOrbPosition(dragWorldPosition);
@@ -79,11 +75,12 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         float orbRadius = transform.lossyScale.x * 0.5f;
         if (GameManager.CanOrbFitAtPos(dragWorldPosition, orbRadius, gameObject))
         {
-            spriteRenderer.color = Color.white;
+            overlay.enabled = false;
         }
         else
         {
-            spriteRenderer.color = Color.red;
+            overlay.enabled = true;
+            SetOverlayColor(Color.red);
         }
         GameManager.Instance.EnemyAreaWarningBox.enabled = GameManager.IsPointInEnemyArea(dragWorldPosition, orbRadius);
     }
@@ -117,10 +114,9 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
             {
                 transform.position = dragStartingPos;
             }
-            spriteRenderer.color = Color.white;
+            overlay.enabled = false;
             GameManager.Instance.EnemyAreaWarningBox.enabled = false;
         }
-        spriteRenderer.sortingOrder = baseOrderInLayer;
         dragging = false;
     }
 
@@ -220,6 +216,11 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         highlight.enabled = true;
         highlight.color = color;
     }
+    public void SetOverlayColor(Color color)
+    {
+        color.a = overlay.color.a;
+        overlay.color = color;
+    }
     public void SetIcon(Texture2D icon)
     {
         sphereRenderer.material.mainTexture = icon;
@@ -292,11 +293,5 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     {
         SetIcon(Icon);
         SetColor(OwnedByPlayer ? GameManager.Settings.PlayerOrbColor : GameManager.Settings.EnemyOrbColor);
-    }
-
-    [ContextMenu("Reset private component references")]
-    void Reset()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }
