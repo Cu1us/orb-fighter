@@ -52,12 +52,12 @@ public class ShopGrid : MonoBehaviour
         }
     }
 
-    public OrbType GetRandomOrbType()
-    {
-        return new();
-    }
     public Upgrade GetRandomUpgrade()
     {
-        return new();
+        return GameManager.Settings.ShopUpgradeWeightTable.PickRandom();
+    }
+    public OrbType GetRandomOrbType()
+    {
+        return GameManager.Settings.ShopOrbTypeWeightTable.PickRandom();
     }
 }

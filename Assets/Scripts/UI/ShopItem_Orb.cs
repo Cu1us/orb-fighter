@@ -9,7 +9,6 @@ public class ShopItem_Orb : ShopItem
 {
     public OrbSpawner spawnerToPlace;
     public OrbType orbType;
-    public LayerMask layersThatBlockPlacement;
     public TextMeshProUGUI attackDamageLabel;
     public TextMeshProUGUI maxHealthLabel;
     public GameObject statsContainer;
@@ -26,6 +25,7 @@ public class ShopItem_Orb : ShopItem
 
     public void SetOrbType(OrbType type)
     {
+        Debug.Log("Setting orb type: " + type.Name, gameObject);
         orbType = type;
         RefreshData();
     }
@@ -38,6 +38,7 @@ public class ShopItem_Orb : ShopItem
 
     public void RefreshData()
     {
+        Debug.Log("Refreshing data!", gameObject);
         image.sprite = orbType.UIIcon;
         ghost.sprite = orbType.UIIcon;
         attackDamageLabel.text = orbType.StartingAttackDamage.ToString();
@@ -94,7 +95,7 @@ public class ShopItem_Orb : ShopItem
         ContactFilter2D filter = new()
         {
             useLayerMask = true,
-            layerMask = layersThatBlockPlacement
+            layerMask = GameManager.Settings.LayersThatBlockOrbPlacement
         };
         int count = Physics2D.OverlapCircle(point, spawnerToPlace.transform.lossyScale.x * 0.5f, filter, results);
         return (count, results);

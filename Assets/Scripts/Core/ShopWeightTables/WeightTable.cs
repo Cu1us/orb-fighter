@@ -11,7 +11,7 @@ public class WeightTable<T> : ScriptableObject
 
     public T PickRandom()
     {
-        if (TotalWeight == float.NaN)
+        if (float.IsNaN(TotalWeight))
             CalculateTotalWeight();
         float chosenWeight = Random.Range(0, TotalWeight);
         float currentWeight = 0;
@@ -23,6 +23,7 @@ public class WeightTable<T> : ScriptableObject
                 return entry.Value;
             }
         }
+        Debug.LogWarning($"Couldn't pick valid entry from weight map '{name}'!");
         return default;
     }
 
@@ -31,7 +32,7 @@ public class WeightTable<T> : ScriptableObject
         float combinedTotalWeight = 0;
         foreach (WeightTable<T> table in combinedTables)
         {
-            if (table.TotalWeight == float.NaN)
+            if (float.IsNaN(table.TotalWeight))
                 table.CalculateTotalWeight();
             combinedTotalWeight += table.TotalWeight;
         }
@@ -48,6 +49,7 @@ public class WeightTable<T> : ScriptableObject
                 }
             }
         }
+        Debug.LogWarning($"Couldn't pick valid entry from collection of weight maps!");
         return default;
     }
 
@@ -59,5 +61,6 @@ public class WeightTable<T> : ScriptableObject
         TotalWeight = total;
     }
 
+    [Serializable]
     public record Entry { [SerializeField] public T Value; [SerializeField] public float Weight; }
 }

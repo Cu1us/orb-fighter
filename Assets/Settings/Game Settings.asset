@@ -21,5 +21,7 @@ MonoBehaviour:
   DefaultOrbSpawnerPrefab: {fileID: 2424120212060679390, guid: 5286d0aac6cd1b3a78d6ea1b1b92641b, type: 3}
   UpgradeMap: {fileID: 11400000, guid: c5d9c5992c4e144bab5d6c1da28f0fb2, type: 2}
   OrbTypeMap: {fileID: 11400000, guid: c4138c1d6c64f51a2ad0f42c8c2aa3fa, type: 2}
+  ShopUpgradeWeightTable: {fileID: 11400000, guid: a60343faa5dc6abce8c476f9822d4f1d, type: 2}
+  ShopOrbTypeWeightTable: {fileID: 11400000, guid: cc769ad6acca074249a44c76f88fa219, type: 2}
   OfflineTeamLists:
   - {fileID: 11400000, guid: 56784242c9b162a79914b34c38e41133, type: 2}

@@ -18,6 +18,9 @@ public class GameSettings : ScriptableObject
     [Header("Asset maps")]
     public UpgradeAssetMap UpgradeMap;
     public OrbTypeAssetMap OrbTypeMap;
+    [Header("Shop weight tables")]
+    public UpgradeWeightTable ShopUpgradeWeightTable;
+    public OrbTypeWeightTable ShopOrbTypeWeightTable;
 
     [Header("Offline teams")]
     public OfflineTeamList[] OfflineTeamLists;
