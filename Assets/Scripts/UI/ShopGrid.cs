@@ -4,15 +4,60 @@ using UnityEngine;
 
 public class ShopGrid : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] ShopItem_Orb[] OrbSlots;
+    [SerializeField] ShopItem_Upgrade[] UpgradeSlots;
+    [SerializeField] int MaxActiveSlots;
+
+    public void OnEnterShop()
     {
-        
+        RefreshShop();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        RefreshShop();
+    }
+
+    public void RefreshShop()
+    {
+        int orbs = Random.Range(2,4);
+        int upgrades = Random.Range(2,3);
+        Fill(orbs, upgrades);
+    }
+
+    public void Fill(int orbs, int upgrades)
+    {
+        orbs = Mathf.Clamp(orbs, 0, MaxActiveSlots);
+        upgrades = Mathf.Clamp(upgrades, 0, MaxActiveSlots - orbs);
+
+        for (int i = 0; i < OrbSlots.Length; i++)
+        {
+            bool active = i < orbs;
+            OrbSlots[i].gameObject.SetActive(active);
+            OrbSlots[i].SetEmptyState(!active);
+            if (active)
+            {
+                OrbSlots[i].SetOrbType(GetRandomOrbType());
+            }
+        }
+        for (int i = 0; i < UpgradeSlots.Length; i++)
+        {
+            bool active = i < upgrades;
+            UpgradeSlots[i].gameObject.SetActive(active);
+            UpgradeSlots[i].SetEmptyState(!active);
+            if (active)
+            {
+                UpgradeSlots[i].SetUpgrade(GetRandomUpgrade());
+            }
+        }
+    }
+
+    public OrbType GetRandomOrbType()
+    {
+        return new();
+    }
+    public Upgrade GetRandomUpgrade()
+    {
+        return new();
     }
 }
