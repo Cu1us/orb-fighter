@@ -22,6 +22,11 @@ public partial class Orb
         }
     }
 
+    public void DisplayHealthFractionOnMaterial()
+    {
+        renderer.material.SetFloat("_HealthFraction", Mathf.Clamp01((Health - 0.75f) / (MaxHealth - 0.75f)));
+    }
+
     public void Die(DamageInfo damageInfo)
     {
         onDeath?.Invoke(damageInfo);

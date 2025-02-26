@@ -66,10 +66,6 @@ public partial class Orb : MonoBehaviour
     {
         renderer.material.mainTexture = icon;
     }
-    public void DisplayHealthFractionOnMaterial()
-    {
-        renderer.material.SetFloat("_HealthFraction", Mathf.Clamp01(Health / MaxHealth));
-    }
 
     public OrbBehavior AddBehavior(OrbBehavior behaviorToClone, int level)
     {
