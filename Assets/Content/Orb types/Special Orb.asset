@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Special Orb
   m_EditorClassIdentifier: 
   OrbPrefab: {fileID: 3853820783085151679, guid: f833284a516b62bb18b72d68b1c9a565, type: 3}
-  Name: Basic Orb
-  Description: This orb doesn't really do anything besides the usual
-  Cost: 3
-  OrbIcon: {fileID: 2800000, guid: 606e3b93d48727312b80da3aba9ab0d1, type: 3}
-  UIIcon: {fileID: 21300000, guid: 606e3b93d48727312b80da3aba9ab0d1, type: 3}
-  MaxSlots: 7
-  StartingHealth: 2
-  StartingAttackDamage: 3
+  Name: Special orb
+  Description: Basic orb in fancy clothing
+  Cost: 4
+  OrbIcon: {fileID: 2800000, guid: 37e93113453ac0d46863acd4090899c8, type: 3}
+  UIIcon: {fileID: 21300000, guid: 0ccc508108fa6ed4fa11b4a467d7f609, type: 3}
+  MaxSlots: 10
+  StartingHealth: 20
+  StartingAttackDamage: 1
   StartingBehaviors:
   - {fileID: 11400000, guid: e896bb9150b055964b4073aeb98e57e2, type: 2}

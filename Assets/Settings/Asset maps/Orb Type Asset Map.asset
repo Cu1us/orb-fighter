@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Orb Type Asset Map
   m_EditorClassIdentifier: 
   Preload: 0
-  Maps: []
+  Maps:
+  - Key: basic
+    Value: {fileID: 11400000, guid: 0fd190b7e0721dca78c54797139b28a3, type: 2}
+  - Key: special
+    Value: {fileID: 11400000, guid: 075f8e7acfaf0bd8b80cae539bd0ef6a, type: 2}

@@ -15,3 +15,5 @@ MonoBehaviour:
   Entries:
   - Value: {fileID: 11400000, guid: 0fd190b7e0721dca78c54797139b28a3, type: 2}
     Weight: 1
+  - Value: {fileID: 11400000, guid: 075f8e7acfaf0bd8b80cae539bd0ef6a, type: 2}
+    Weight: 2
