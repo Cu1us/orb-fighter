@@ -24,6 +24,6 @@ MonoBehaviour:
   BehaviorLevel: 0
   UpgradeableBehavior: 1
   AddStats: 1
-  MaxHealthIncrease: 0
+  MaxHealthIncrease: 1
   AttackDamageIncrease: 1
   MassIncrease: 0

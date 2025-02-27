@@ -22,8 +22,9 @@ public class SpawnerStatDisplay : MonoBehaviour
     }
     void UpdateLabels()
     {
-        HealthLabel.text = Spawner.MaxHealth.ToString();
-        AttackDamageLabel.text = Spawner.AttackDamage.ToString();
+        (float health, float attackDamage) = Spawner.GetStats();
+        HealthLabel.text = health.ToString();
+        AttackDamageLabel.text = attackDamage.ToString();
         SlotsLabel.text = $"{Spawner.GetUsedSlotsCount()}/{Spawner.MaxSlots}";
     }
     void Update()

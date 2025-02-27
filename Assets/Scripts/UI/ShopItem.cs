@@ -18,7 +18,6 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [SerializeField] Color costLabelColor;
     [SerializeField] float TimeBeforeInfoBoxShowsUp;
 
-    public int Cost;
     public bool IsEmpty;
 
     protected bool dragging;
@@ -62,6 +61,11 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         ghost.rectTransform.position = image.rectTransform.position;
     }
 
+    public virtual int GetCost()
+    {
+        return 0;
+    }
+
     void OnDisable()
     {
         ResetGhost();
@@ -80,7 +84,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                     ShowInfoBox();
                 }
             }
-            if (Bank.CanAfford(Cost))
+            if (Bank.CanAfford(GetCost()))
             {
                 costLabel.color = costLabelColor;
                 currencyIcon.color = Color.white;
@@ -98,7 +102,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     protected Vector2 GetInfoBoxPosition()
     {
         // NOTE: Not perfect, but I honestly don't know to fix the inaccuracies that occur on non-standard aspect ratios
-        return ((Vector2)slot.position + new Vector2(-slot.rect.width, slot.rect.height) / 2)/ new Vector2(Screen.width, Screen.height) * GameManager.Instance.MainCanvasScaler.referenceResolution;
+        return ((Vector2)slot.position + new Vector2(-slot.rect.width, slot.rect.height) / 2) / new Vector2(Screen.width, Screen.height) * GameManager.Instance.MainCanvasScaler.referenceResolution;
     }
 
     protected virtual void ShowInfoBox()
@@ -133,7 +137,7 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 HeldShopItem = null;
         }
         image.enabled = !empty;
-        ghost.enabled = !empty;
+        ghost.enabled = false;
         costLabel.enabled = !empty;
         currencyIcon.enabled = !empty;
     }

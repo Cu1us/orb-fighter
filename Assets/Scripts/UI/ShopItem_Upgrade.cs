@@ -24,7 +24,7 @@ public class ShopItem_Upgrade : ShopItem
         image.sprite = upgrade.Icon;
         ghost.sprite = upgrade.Icon;
         slotsRequiredLabel.text = upgrade.SlotsReq.ToString();
-        costLabel.text = upgrade.Cost.ToString();
+        costLabel.text = GetCost().ToString();
     }
 
     void Start()
@@ -56,7 +56,7 @@ public class ShopItem_Upgrade : ShopItem
         base.OnEndDrag(eventData);
         if (!IsEmpty && RaycastForSpawner(out OrbSpawner spawner) && CanApplyUpgradeTo(spawner))
         {
-            if (Bank.TryDeduct(upgrade.Cost))
+            if (Bank.TryDeduct(GetCost()))
             {
                 ApplyUpgradeTo(spawner);
                 SetEmptyState(true);
@@ -84,6 +84,11 @@ public class ShopItem_Upgrade : ShopItem
         }
         spawner = null;
         return false;
+    }
+
+    public override int GetCost()
+    {
+        return upgrade.Cost;
     }
 
     protected override void ShowInfoBox()

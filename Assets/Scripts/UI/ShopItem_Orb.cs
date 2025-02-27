@@ -20,7 +20,7 @@ public class ShopItem_Orb : ShopItem
         shopContainer = GameManager.Instance.ShopContainer.GetComponent<RectTransform>();
         RefreshData();
         ResizeIconsToMatchOrbsInWorld();
-        costLabel.text = Cost.ToString();
+        costLabel.text = GetCost().ToString();
     }
 
     public void SetOrbType(OrbType type)
@@ -112,7 +112,7 @@ public class ShopItem_Orb : ShopItem
         if (!GameManager.IsPointInEnemyArea(point, spawnerToPlace.transform.lossyScale.x * 0.5f) && !IsAboveShopUI())
         {
             (int overlappingCount, _) = GetOverlappingColliders(point);
-            if (overlappingCount == 0 && Bank.TryDeduct(Cost))
+            if (overlappingCount == 0 && Bank.TryDeduct(GetCost()))
             {
                 PlaceSpawnerAt(point);
                 SetEmptyState(true);
@@ -120,6 +120,11 @@ public class ShopItem_Orb : ShopItem
         }
 
         base.OnEndDrag(eventData);
+    }
+
+    public override int GetCost()
+    {
+        return orbType.Cost;
     }
 
     void PlaceSpawnerAt(Vector3 spawnPoint)

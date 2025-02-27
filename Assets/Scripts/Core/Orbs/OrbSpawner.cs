@@ -214,6 +214,20 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         }
         return usedSlots + upgradeToAdd.SlotsReq <= MaxSlots && existingUpgrades < upgradeToAdd.MaxInstancesPerOrb;
     }
+    public (float, float) GetStats()
+    {
+        float maxHealth = MaxHealth;
+        float attackDamage = AttackDamage;
+        foreach (Upgrade upgrade in Upgrades)
+        { 
+            if (upgrade.AddStats)
+            {
+                maxHealth += upgrade.MaxHealthIncrease;
+                attackDamage += upgrade.AttackDamageIncrease;
+            }
+        }
+        return (maxHealth, attackDamage);
+    }
 
     public void Highlight(Color color, float duration = 0)
     {
