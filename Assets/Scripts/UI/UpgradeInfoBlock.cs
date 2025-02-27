@@ -41,7 +41,8 @@ public class UpgradeInfoBlock : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     void ShowInfoBox()
     {
-        Vector2 infoBoxPosition = Background.rectTransform.position + new Vector3(-Background.rectTransform.rect.width, Background.rectTransform.rect.height) / 2;
+        Vector2 infoBoxPosition = RectTransformUtility.CalculateRelativeRectTransformBounds(GameManager.Instance.MainCanvasScaler.transform, Background.rectTransform).center;
+        Debug.Log($"Position: {infoBoxPosition}, localPosition: {Background.rectTransform.localPosition}");
         infoBoxGuid = InfoBox.Instance.ShowUpgrade(DisplayedUpgrade, infoBoxPosition);
     }
 

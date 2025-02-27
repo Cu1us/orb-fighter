@@ -5,6 +5,7 @@ using UnityEngine.Pool;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class OrbDetails : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class OrbDetails : MonoBehaviour
     [Header("Info blocks")]
     [SerializeField] UpgradeInfoBlock infoBlockPrefab;
     [SerializeField] Transform infoBlockContainer;
+    [Header("Labels")]
+    [SerializeField] TextMeshProUGUI Title;
+    [SerializeField] TextMeshProUGUI Description;
+    [SerializeField] TextMeshProUGUI HealthDisplay;
+    [SerializeField] TextMeshProUGUI AttackDamageDisplay;
 
     public List<UpgradeInfoBlock> spawnedInfoBlocks;
     ObjectPool<UpgradeInfoBlock> Pool;
@@ -106,6 +112,21 @@ public class OrbDetails : MonoBehaviour
             spawner.onUpgradeAdded += OnSpawnerUpgradesChange;
         }
         DisplayedSpawner = spawner;
+
+        if (DisplayedSpawner.metadata == null)
+        {
+            Title.text = "Unknown orb type";
+            Description.text = "Failed to load orb information";
+        }
+        else
+        {
+            Title.text = DisplayedSpawner.metadata.Name;
+            Description.text = DisplayedSpawner.metadata.Description;
+        }
+
+        (float health, float attackDamage) = spawner.GetStats();
+        HealthDisplay.text = health.ToString();
+        AttackDamageDisplay.text = attackDamage.ToString();
 
         ClearInfoBlocks();
         foreach (KeyValuePair<Upgrade, int> upgrade in spawner.GetUpgrades())

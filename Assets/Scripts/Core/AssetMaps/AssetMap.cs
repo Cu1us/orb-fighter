@@ -46,6 +46,11 @@ public class AssetMap<T> : ScriptableObject where T : ScriptableObject
     public bool TryGetFromID(string id, out T asset)
     {
         if (!Loaded) SetupMap();
+        if (string.IsNullOrEmpty(id))
+        {
+            asset = null;
+            return false;
+        }
         return FromIDMap.TryGetValue(id, out asset);
     }
     public string GetIDOf(T asset)
@@ -56,6 +61,11 @@ public class AssetMap<T> : ScriptableObject where T : ScriptableObject
     public bool TryGetIDOf(T asset, out string id)
     {
         if (!Loaded) SetupMap();
+        if (asset == null)
+        {
+            id = string.Empty;
+            return false;
+        }
         return ToIDMap.TryGetValue(asset, out id);
     }
 
