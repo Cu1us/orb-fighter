@@ -19,6 +19,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     [Header("Settings")]
     public float velocityArrowLength;
     public float holdTimeToMoveObject;
+    public OrbType metadata;
 
     [Header("Orb data")]
     public Orb Prefab;
@@ -219,7 +220,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
         float maxHealth = MaxHealth;
         float attackDamage = AttackDamage;
         foreach (Upgrade upgrade in Upgrades)
-        { 
+        {
             if (upgrade.AddStats)
             {
                 maxHealth += upgrade.MaxHealthIncrease;
@@ -278,6 +279,11 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     public static OrbSpawner InstantiateSpawnerFromData(SerializableOrbSpawner data, Transform parent, bool ownedByPlayer = false)
     {
         OrbSpawner instance = Instantiate(GameManager.Settings.DefaultOrbSpawnerPrefab, data.position, Quaternion.identity, parent);
+        if (GameManager.Settings.OrbTypeMap.TryGetFromID(data.type, out OrbType type))
+        {
+            instance.metadata = type;
+        }
+        else Debug.LogWarning($"Failed to get orb type from saved string '{data.type}'");
         instance.StartVelocityDir = data.startVelocity.normalized;
         instance.StartVelocityMagnitude = data.startVelocity.magnitude;
         instance.OwnedByPlayer = ownedByPlayer;

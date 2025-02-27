@@ -42,7 +42,7 @@ public static class GameSerializer
             }
         }
 
-        return new(position, startVelocity, upgrades);
+        return new(spawner.metadata, position, startVelocity, upgrades);
     }
 
     public static List<string> CustomParseJSONTeamKeyList(string json)
@@ -74,12 +74,14 @@ public static class GameSerializer
 [System.Serializable]
 public class SerializableOrbSpawner
 {
+    [SerializeField] public string type;
     [SerializeField] public Vector2 position;
     [SerializeField] public Vector2 startVelocity;
     [SerializeField] public List<string> upgrades;
 
-    public SerializableOrbSpawner(Vector2 position, Vector2 startVelocity, List<string> upgrades)
+    public SerializableOrbSpawner(OrbType type, Vector2 position, Vector2 startVelocity, List<string> upgrades)
     {
+        this.type = GameManager.Settings.OrbTypeMap.GetIDOf(type);
         this.position = position;
         this.startVelocity = startVelocity;
         this.upgrades = upgrades;

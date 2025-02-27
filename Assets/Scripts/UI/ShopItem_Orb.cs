@@ -131,6 +131,7 @@ public class ShopItem_Orb : ShopItem
     void PlaceSpawnerAt(Vector3 spawnPoint)
     {
         OrbSpawner spawner = Instantiate(spawnerToPlace, spawnPoint, Quaternion.identity, GameManager.Instance.PlayerSpawnerContainer.transform);
+        spawner.metadata = orbType;
         spawner.StartingBehaviors = orbType.StartingBehaviors;
         spawner.MaxHealth = orbType.StartingHealth;
         spawner.AttackDamage = orbType.StartingAttackDamage;
