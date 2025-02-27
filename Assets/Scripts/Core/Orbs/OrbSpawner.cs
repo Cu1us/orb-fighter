@@ -195,11 +195,14 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     public void AddUpgrade(Upgrade upgrade)
     {
         Upgrades.Add(upgrade);
-        BehaviorMetadata metadata = upgrade.BehaviorToAdd.Metadata;
-        if (metadata && metadata.ApplyVFXToSpawner && metadata.VisualEffectPrefab && !ActiveVFX.Contains(metadata.VisualEffectPrefab))
+        if (upgrade.AddBehavior)
         {
-            OrbVFX vfx = Instantiate(metadata.VisualEffectPrefab, VisualEffectsContainer);
-            ActiveVFX.Add(metadata.VisualEffectPrefab);
+            BehaviorMetadata metadata = upgrade.BehaviorToAdd.Metadata;
+            if (metadata && metadata.ApplyVFXToSpawner && metadata.VisualEffectPrefab && !ActiveVFX.Contains(metadata.VisualEffectPrefab))
+            {
+                OrbVFX vfx = Instantiate(metadata.VisualEffectPrefab, VisualEffectsContainer);
+                ActiveVFX.Add(metadata.VisualEffectPrefab);
+            }
         }
         onUpgradeAdded?.Invoke();
     }
@@ -213,7 +216,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
                 existingUpgrades++;
             usedSlots += upgradeToAdd.SlotsReq;
         }
-        return usedSlots + upgradeToAdd.SlotsReq <= MaxSlots && existingUpgrades < upgradeToAdd.MaxInstancesPerOrb;
+        return usedSlots + upgradeToAdd.SlotsReq <= MaxSlots && (upgradeToAdd.MaxInstancesPerOrb < 0 || existingUpgrades < upgradeToAdd.MaxInstancesPerOrb);
     }
     public (float, float) GetStats()
     {
