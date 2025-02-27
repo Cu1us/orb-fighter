@@ -167,18 +167,47 @@ public partial class GameManager
     {
         GameActive = false;
         OnRoundEnd?.Invoke(result);
-        Invoke(nameof(BackToShop), 3);
 
         Bank.Add(Settings.StartingCurrency);
 
         RoundEndText.text = result switch
         {
             RoundResult.VICTORY => "YOU WIN !!!",
-            RoundResult.LOSS => "YOU LOSE !!! >:(",
-            _ => "DRAW??!?!?!"
+            RoundResult.LOSS => "YOU LOSE :(",
+            _ => "DRAW !!!"
         };
 
-        FirebaseManager.SaveTeam(GameSerializer.GetSerializablePlayerTeam(), Round);
+        switch (result)
+        {
+            case RoundResult.VICTORY:
+                RoundEndText.text = "YOU WIN !!!";
+                goto default;
+
+            case RoundResult.DRAW:
+                RoundEndText.text = "DRAW !!!";
+                goto default;
+
+            case RoundResult.LOSS:
+                RemainingLives--;
+                if (RemainingLives < 0)
+                {
+                    RestartGame();
+                    RoundEndText.text = "GAME OVER !!!";
+                    Invoke(nameof(BackToShop), 5);
+                }
+                else
+                {
+                    RoundEndText.text = $"YOU LOSE !!!\n{RemainingLives} lives remaining";
+                    goto default;
+                }
+                break;
+
+            default:
+                Invoke(nameof(BackToShop), 3);
+                FirebaseManager.SaveTeam(GameSerializer.GetSerializablePlayerTeam(), Round);
+                break;
+        }
+
 
         RoundEndText.gameObject.SetActive(true);
     }

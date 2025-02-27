@@ -94,8 +94,11 @@ public partial class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        Round = 0;
         RemainingLives = Settings.StartingLives;
         Bank.SetBalance(Settings.StartingCurrency);
+        PlayerSpawnerContainer.Clear();
+        EnemySpawnerContainer.Clear();
     }
 
 

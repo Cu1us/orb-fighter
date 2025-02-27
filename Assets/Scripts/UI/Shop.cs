@@ -18,14 +18,20 @@ public class Shop : MonoBehaviour
     [Header("References")]
     [SerializeField] TextMeshProUGUI RoundCounter;
     [SerializeField] TextMeshProUGUI CurrencyCounter;
+    [SerializeField] TextMeshProUGUI LivesCounter;
 
     void Start()
     {
         UpdateRoundCounter();
+        UpdateLivesCounter();
     }
     public void UpdateRoundCounter()
     {
         RoundCounter.text = $"Round {GameManager.Round + 1}";
+    }
+    public void UpdateLivesCounter()
+    {
+        LivesCounter.text = GameManager.Instance.RemainingLives.ToString();
     }
     public void SetDisplayedCurrency(int currency)
     {

@@ -258,8 +258,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286940549
-  m_fontColor: {r: 0.5197644, g: 0.5197644, b: 0.5197644, a: 1}
+    rgba: 4292006610
+  m_fontColor: {r: 0.8222167, g: 0.8222167, b: 0.8222167, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2310,6 +2310,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 648844740}
+        m_TargetAssemblyTypeName: Shop, UI
+        m_MethodName: UpdateLivesCounter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 416732317}
         m_TargetAssemblyTypeName: ShopGrid, UI
         m_MethodName: OnEnterShop
@@ -2392,7 +2404,7 @@ GameObject:
   - component: {fileID: 643064225}
   - component: {fileID: 643064224}
   m_Layer: 5
-  m_Name: HealthDisplay
+  m_Name: LivesDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2513,6 +2525,7 @@ MonoBehaviour:
   FadeOutType: 26
   RoundCounter: {fileID: 1975256805}
   CurrencyCounter: {fileID: 1801525890}
+  LivesCounter: {fileID: 17210065}
 --- !u!1 &681356343
 GameObject:
   m_ObjectHideFlags: 0
@@ -4453,7 +4466,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1235167313}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8092,7 +8105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 40, y: -15}
+  m_AnchoredPosition: {x: 0, y: -15}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1975256805
