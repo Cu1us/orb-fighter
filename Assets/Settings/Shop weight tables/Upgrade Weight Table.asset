@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Upgrade Weight Table
   m_EditorClassIdentifier: 
   Entries:
-  - Value: {fileID: 11400000, guid: 95fa8b91932b31579a76d5e772e75d01, type: 2}
+  - Value: {fileID: 11400000, guid: 804cc25fa7668b019aff619a82c6d98a, type: 2}
     Weight: 1

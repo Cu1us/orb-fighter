@@ -33,8 +33,8 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         if (IsEmpty) return;
         ghost.rectTransform.position = image.rectTransform.position;
         ghost.sprite = image.sprite;
-        image.enabled = false;
-        ghost.enabled = true;
+        image.gameObject.SetActive(false);
+        ghost.gameObject.SetActive(true);
         dragging = true;
         HeldShopItem = this;
     }
@@ -56,8 +56,8 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     void ResetGhost()
     {
-        image.enabled = !IsEmpty;
-        ghost.enabled = false;
+        image.gameObject.SetActive(!IsEmpty);
+        ghost.gameObject.SetActive(false);
         ghost.rectTransform.position = image.rectTransform.position;
     }
 
@@ -136,8 +136,8 @@ public class ShopItem : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             if (HeldShopItem == this)
                 HeldShopItem = null;
         }
-        image.enabled = !empty;
-        ghost.enabled = false;
+        image.gameObject.SetActive(!IsEmpty);
+        ghost.gameObject.SetActive(false);
         costLabel.enabled = !empty;
         currencyIcon.enabled = !empty;
     }

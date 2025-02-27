@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ShopItem_Orb : ShopItem
 {
@@ -12,6 +13,9 @@ public class ShopItem_Orb : ShopItem
     public TextMeshProUGUI attackDamageLabel;
     public TextMeshProUGUI maxHealthLabel;
     public GameObject statsContainer;
+
+    public RawImage orbTypeIcon;
+    public RawImage ghostOrbTypeIcon;
 
     RectTransform shopContainer;
 
@@ -39,8 +43,8 @@ public class ShopItem_Orb : ShopItem
     public void RefreshData()
     {
         Debug.Log("Refreshing data!", gameObject);
-        image.sprite = orbType.UIIcon;
-        ghost.sprite = orbType.UIIcon;
+        orbTypeIcon.texture = orbType.OrbIcon;
+        ghostOrbTypeIcon.texture = orbType.OrbIcon;
         attackDamageLabel.text = orbType.StartingAttackDamage.ToString();
         maxHealthLabel.text = orbType.StartingHealth.ToString();
         costLabel.text = GetCost().ToString();
