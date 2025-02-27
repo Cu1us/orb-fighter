@@ -43,6 +43,7 @@ public class ShopItem_Orb : ShopItem
         ghost.sprite = orbType.UIIcon;
         attackDamageLabel.text = orbType.StartingAttackDamage.ToString();
         maxHealthLabel.text = orbType.StartingHealth.ToString();
+        costLabel.text = GetCost().ToString();
     }
 
     void ResizeIconsToMatchOrbsInWorld()

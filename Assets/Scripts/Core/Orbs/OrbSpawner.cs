@@ -242,6 +242,7 @@ public class OrbSpawner : MonoBehaviour, IPointerClickHandler, IDragHandler, IBe
     }
     public void SetIcon(Texture2D icon)
     {
+        Icon = icon;
         sphereRenderer.material.mainTexture = icon;
     }
     public void SetColor(Color color)
