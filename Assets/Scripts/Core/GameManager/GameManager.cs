@@ -19,6 +19,8 @@ public partial class GameManager : MonoBehaviour
     }
     public static bool HasInstance { get { return _instance != null; } }
 
+    [Header("Stats")]
+    public int RemainingLives;
 
     [Header("Game Settings Asset")]
     public GameSettings gameSettings;
@@ -39,6 +41,10 @@ public partial class GameManager : MonoBehaviour
     [Header("Events")]
     public UnityEvent<OrbSpawner> OnOrbClicked;
 
+    void Start()
+    {
+        RestartGame();
+    }
 
     public static bool IsPointInEnemyArea(Vector2 point, float margin)
     {
@@ -83,6 +89,13 @@ public partial class GameManager : MonoBehaviour
     public void RegisterClickOnOrbSpawner(OrbSpawner source)
     {
         OnOrbClicked?.Invoke(source);
+    }
+
+
+    public void RestartGame()
+    {
+        RemainingLives = Settings.StartingLives;
+        Bank.SetBalance(Settings.StartingCurrency);
     }
 
 

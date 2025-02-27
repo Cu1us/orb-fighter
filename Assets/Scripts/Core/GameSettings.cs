@@ -10,6 +10,7 @@ public class GameSettings : ScriptableObject
     public Color PlayerOrbColor;
     public Color EnemyOrbColor;
     public int StartingCurrency;
+    public int StartingLives;
 
 
     [Header("Default prefabs")]
