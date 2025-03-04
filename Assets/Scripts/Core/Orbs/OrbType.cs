@@ -10,7 +10,6 @@ public class OrbType : ScriptableObject
     public string Description;
     public int Cost;
     public Texture2D OrbIcon;
-    public Sprite UIIcon;
     public int MaxSlots;
     public float StartingHealth;
     public float StartingAttackDamage;
