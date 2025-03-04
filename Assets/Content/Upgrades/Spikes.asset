@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: 
   Cost: 2
   SlotsReq: 1
-  MaxInstancesPerOrb: 0
+  MaxInstancesPerOrb: -1
   AddBehavior: 0
   BehaviorToAdd: {fileID: 0}
   BehaviorLevel: 0
