@@ -15,6 +15,7 @@ public partial class Orb
         Health -= damage;
         onTakeDamage?.Invoke(damageInfo);
         DisplayHealthFractionOnMaterial();
+        DamageFlash();
         if (Health <= 0)
         {
             Health = 0;
@@ -25,6 +26,10 @@ public partial class Orb
     public void DisplayHealthFractionOnMaterial()
     {
         renderer.material.SetFloat("_HealthFraction", Mathf.Clamp01((Health - 0.75f) / (MaxHealth - 0.75f)));
+    }
+    public void DamageFlash()
+    {
+        renderer.material.SetFloat("_LastHitTime", Time.time);
     }
 
     public void Die(DamageInfo damageInfo)
